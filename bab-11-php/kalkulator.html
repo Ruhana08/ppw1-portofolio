@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praktikum JavaScript - Kalkulator</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg, #f0f4f8 0%, #ffffff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .calc-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.05);
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .calc-header {
+            background-color: #1e3a8a; /* Deep Blue 1 Tone */
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-control:focus {
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .btn-calc {
+            background-color: #f1f5f9;
+            color: #1e3a8a;
+            border: 1px solid #e2e8f0;
+            padding: 14px;
+            font-size: 20px;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-calc:hover {
+            background-color: #1e3a8a;
+            color: #ffffff;
+            border-color: #1e3a8a;
+            transform: translateY(-2px);
+        }
+
+        .result-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            min-height: 68px;
+        }
+
+        .result-title {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calc-card">
+    <div class="calc-header">
+        🧮 Kalkulator Interaktif JavaScript
+    </div>
+    
+    <div class="card-body p-4">
+        <div class="mb-3">
+            <label for="angka1" class="form-label">Bilangan Pertama</label>
+            <input type="number" id="angka1" class="form-control" placeholder="Masukkan angka">
+        </div>
+
+        <div class="mb-3">
+            <label for="angka2" class="form-label">Bilangan Kedua</label>
+            <input type="number" id="angka2" class="form-control" placeholder="Masukkan angka">
+        </div>
+
+        <div class="btn-grid">
+            <button class="btn-calc" onclick="hitung('tambah')">+</button>
+            <button class="btn-calc" onclick="hitung('kurang')">-</button>
+            <button class="btn-calc" onclick="hitung('kali')">×</button>
+            <button class="btn-calc" onclick="hitung('bagi')">/</button>
+        </div>
+
+        <div class="result-box">
+            <p class="result-title">Hasil Perhitungan</p>
+            <p class="result-value" id="output-hasil">-</p>
+        </div>
+    </div>
+</div>
+
+<script>
+function hitung(operasi) {
+    // Mengambil nilai input dan mengubahnya ke tipe data float
+    const num1 = parseFloat(document.getElementById('angka1').value);
+    const num2 = parseFloat(document.getElementById('angka2').value);
+    const outputElement = document.getElementById('output-hasil');
+
+    // Validasi jika ada input yang kosong
+    if (isNaN(num1) || isNaN(num2)) {
+        outputElement.innerHTML = "<span style='color: #ef4444;'>Masukkan kedua angka!</span>";
+        return;
+    }
+
+    let hasil = 0;
+    let simbol = '';
+
+    // Menentukan operasi matematika
+    switch (operasi) {
+        case 'tambah':
+            hasil = num1 + num2;
+            simbol = '+';
+            break;
+        case 'kurang':
+            hasil = num1 - num2;
+            simbol = '-';
+            break;
+        case 'kali':
+            hasil = num1 * num2;
+            simbol = '×';
+            break;
+        case 'bagi':
+            // Validasi pembagian dengan angka nol
+            if (num2 === 0) {
+                outputElement.innerHTML = "<span style='color: #ef4444;'>Tidak bisa dibagi 0!</span>";
+                return;
+            }
+            hasil = num1 / num2;
+            simbol = '/';
+            break;
+    }
+
+    // Menampilkan hasil secara dinamis ke elemen HTML
+    outputElement.innerHTML = `${num1} ${simbol} ${num2} = <strong>${hasil}</strong>`;
+}
+</script>
+
+</body>
+</html>
