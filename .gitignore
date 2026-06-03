@@ -1,0 +1,4 @@
+# Sembunyikan file konfigurasi database dan sistem
+   koneksi.php
+   config.php
+   .env
