@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soundwave</title>
+<link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: #0d0d0d;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* ===================== NAVBAR ===================== */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background: black;
+}
+
+.logo { color: gold; font-size: 20px; }
+
+.nav-right { display: flex; align-items: center; gap: 10px; }
+
+.btn-white, .btn-dark {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-white { background: white; color: black; }
+.btn-dark  { background: black; color: white; border: 1px solid white; }
+.btn-white:hover { background: #ddd; }
+.btn-dark:hover  { background: white; color: black; }
+
+.artist { color: #aaa; font-size: 13px; cursor: pointer; }
+.artist:hover { color: gold; }
+
+/* ===================== HERO ===================== */
+
+.hero {
+  text-align: center;
+  padding: 50px 20px 40px;
+  background: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.tagline {
+  letter-spacing: 3px;
+  color: gold;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.hero h1 {
+  font-size: 60px;
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 10px 0 20px;
+  letter-spacing: -1px;
+}
+.hero span { color: gold; }
+
+.search { width: 100%; max-width: 560px; margin-bottom: 10px; }
+
+.hero input {
+  width: 100%;
+  padding: 16px 28px;
+  border-radius: 30px;
+  border: none;
+  font-size: 15px;
+  background: #f5f5f5;
+  color: #111;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+.hero input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255,215,0,0.4);
+}
+
+.categories {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.categories span {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  padding: 9px 20px;
+  border-radius: 30px;
+  display: inline-block;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #ccc;
+}
+.categories span:hover {
+  background: gold;
+  color: black;
+  border-color: gold;
+}
+
+/* ===================== BANNER ===================== */
+
+.banner {
+  width: 100%;
+  margin: 0;
+  padding: 20px 60px 40px;
+  background: black;    /* sambung dari hero */
+}
+
+.slider {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.slide-item {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  background: #111;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.slide-item:hover {
+  transform: translateY(-4px);
+  border-color: gold;
+  box-shadow: 0 8px 24px rgba(255,215,0,0.25);
+}
+
+.slide-item img {
+  width: 100%;
+  height: 260px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  padding: 8px;
+}
+
+.slide-item .overlay { display: none; }
+
+.slide-item .play-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 46px;
+  height: 46px;
+  background: gold;
+  color: black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+}
+.slide-item:hover .play-btn { opacity: 1; transform: translateY(0); }
+
+/* ===================== PAGE WRAPPER ===================== */
+/* KUNCI STICKY:
+   - .page-wrapper  → display:flex + height:100vh + overflow:hidden
+   - .sidebar       → height:100vh + overflow-y:auto (diam di tempat)
+   - .main-scroll   → overflow-y:auto (yang scroll)
+*/
+
+.page-wrapper {
+  display: flex;
+  height: calc(100vh - 0px); /* otomatis sisa tinggi setelah navbar+hero+banner */
+  overflow: hidden;
+  position: relative;
+}
+
+/* ===================== SIDEBAR ===================== */
+
+.sidebar {
+  width: 260px;
+  background: #111;
+  padding: 36px 24px;
+  flex-shrink: 0;
+  height: 100%;        /* ikuti tinggi page-wrapper */
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+}
+
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+
+.sidebar h3 {
+  font-family: 'Irish Grover', cursive;
+  font-size: 20px;
+  color: gold;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #222;
+  margin-bottom: 6px;
+}
+
+.playlist-title {
+  font-family: 'Irish Grover', cursive;
+  font-size: 16px;
+  color: gold;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #222;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+.sidebar ul { list-style: none; margin-top: 6px; margin-bottom: 10px; }
+
+.sidebar li {
+  padding: 10px 14px;
+  margin: 3px 0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #bbb;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sidebar li:hover { background: #1e1e1e; color: gold; padding-left: 20px; }
+
+/* ===================== MAIN CONTENT ===================== */
+
+.main-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 36px 44px;
+  background: #0d0d0d;
+}
+
+.main-scroll::-webkit-scrollbar { width: 5px; }
+.main-scroll::-webkit-scrollbar-track { background: #111; }
+.main-scroll::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+/* ===================== SECTION TITLE ===================== */
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cards + .section-title { margin-top: 50px; }
+
+.section-title span { color: #666; cursor: pointer; font-size: 14px; transition: 0.2s; }
+.section-title span:hover { color: gold; }
+
+/* ===================== CARDS ===================== */
+
+.cards { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 10px; }
+
+.card {
+  background: #1a1a1a;
+  padding: 10px;
+  border-radius: 14px;
+  width: 150px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: 1px solid transparent;
+}
+
+.card img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.card h4 {
+  margin-top: 8px;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #e0e0e0;
+}
+
+.card p { font-size: 12px; color: #666; margin-top: 3px; }
+
+.card:hover {
+  transform: translateY(-4px);
+  background: #252525;
+  border-color: #333;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+/* ===================== LIST LAGU ===================== */
+
+.list { margin-top: 10px; }
+
+.music {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 10px;
+  border-bottom: 1px solid #1e1e1e;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 8px;
+}
+.music:hover { background: #161616; padding-left: 16px; }
+.music:hover .title { color: gold; }
+
+/* ===================== PLAY BUTTON ===================== */
+
+.play {
+  background: gold;
+  color: black;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  transition: 0.2s;
+}
+.music:hover .play { background: #f0d060; transform: scale(1.1); }
+
+/* ===================== SONG INFO ===================== */
+
+.song-info { display: flex; flex-direction: column; gap: 3px; }
+.title { font-size: 14px; font-weight: 500; color: #ddd; transition: color 0.2s; }
+.artist { color: #aaa; font-size: 13px; cursor: pointer; }
+.artist:hover { color: gold; }
+.artist-name { font-size: 12px; color: #555; }
+
+/* ===================== PLAYER BAR (STICKY BOTTOM) ===================== */
+
+.player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: #111;
+  border-top: 1px solid #222;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  gap: 20px;
+  z-index: 999;
+}
+
+/* Info lagu kiri */
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.player-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #222;
+  flex-shrink: 0;
+}
+
+
+.player-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+.player-artist {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* Kontrol tengah */
+.player-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.player-buttons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ctrl-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+.ctrl-btn:hover { color: #fff; }
+
+/* Tombol play utama */
+.ctrl-btn.play-main {
+  width: 40px;
+  height: 40px;
+  background: gold;
+  border-radius: 50%;
+  color: black;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.ctrl-btn.play-main:hover {
+  background: #f0d060;
+  transform: scale(1.08);
+}
+
+/* Progress bar */
+.player-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.progress-time {
+  font-size: 11px;
+  color: #555;
+  flex-shrink: 0;
+  min-width: 36px;
+  text-align: center;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  transition: height 0.15s;
+}
+.progress-bar:hover { height: 6px; }
+
+.progress-fill {
+  height: 100%;
+  width: 35%;
+  background: gold;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Volume kanan */
+.player-volume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 160px;
+  flex-shrink: 0;
+  justify-content: flex-end;
+}
+
+.vol-icon {
+  font-size: 16px;
+  color: #666;
+  cursor: pointer;
+}
+.vol-icon:hover { color: #fff; }
+
+.vol-bar {
+  width: 80px;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+.vol-fill {
+  height: 100%;
+  width: 70%;
+  background: #aaa;
+  border-radius: 2px;
+}
+.vol-bar:hover .vol-fill { background: gold; }
+
+/* Beri ruang bawah supaya konten tidak ketutup player bar */
+.main-scroll {
+  padding-bottom: 100px;
+}
+/* ===================== RESPONSIVE ===================== */
+
+/* TABLET */
+@media (max-width: 1024px) {
+
+  .navbar {
+    padding: 15px 30px;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .banner {
+    padding: 20px 30px;
+  }
+
+  .sidebar {
+    width: 200px;
+    padding: 20px;
+  }
+
+  .card {
+    width: 130px;
+  }
+
+  .player-info {
+    width: 200px;
+  }
+
+}
+
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  /* NAVBAR */
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+  }
+
+  /* HERO */
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .search {
+    max-width: 100%;
+  }
+
+  /* BANNER jadi scroll horizontal */
+  .slider {
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .slide-item {
+    min-width: 220px;
+  }
+
+  /* SIDEBAR jadi top menu */
+  .page-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+  }
+
+  .sidebar ul {
+    display: flex;
+    gap: 10px;
+  }
+
+  .sidebar li {
+    white-space: nowrap;
+    background: #1a1a1a;
+  }
+
+  /* MAIN */
+  .main-scroll {
+    padding: 20px;
+  }
+
+  /* CARD jadi scroll horizontal */
+  .cards {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .card {
+    min-width: 140px;
+  }
+
+  /* PLAYER */
+  .player-bar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .player-info {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .player-controls {
+    width: 100%;
+  }
+
+  .player-volume {
+    width: 100%;
+    justify-content: center;
+  }
+
+}
+
+
+/* HP KECIL */
+@media (max-width: 480px) {
+
+  .hero h1 {
+    font-size: 22px;
+  }
+
+  .categories span {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .card {
+    min-width: 120px;
+  }
+
+  .player-title {
+    max-width: 120px;
+  }
+
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="logo">🎵 Soundwave</div>
+  <div class="nav-right">
+    <button class="btn-white">Sign in</button>
+    <button class="btn-dark">Create account</button>
+    <span class="artist">For artist</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="tagline">— DENGARKAN MUSIC FAVORITMU —</p>
+  <h1>Discover <span>Sounds</span> You Love</h1>
+  <div class="search">
+    <input type="text" placeholder="🔍  Search for artists, bands, podcast">
+  </div>
+  <div class="categories">
+    <span>Trending</span>
+    <span>Pop Indonesia</span>
+    <span>Playlist</span>
+    <span>Podcast</span>
+  </div>
+</section>
+
+<!-- BANNER -->
+<section class="banner">
+  <div class="slider">
+    <div class="slide-item">
+      <img src="tiara.png" alt="Kupu-kupu">
+      <div class="overlay"></div>
+      <div class="play-btn">▶</div>
+    </div>
+    <div class="slide-item">
+      <img src="tenxi.png" alt="Garam & Madu">
+      <div class="overlay"></div>
+      <div class="play-btn">▶</div>
+    </div>
+    <div class="slide-item">
+      <img src="raim.png" alt="Lesung Pipi">
+      <div class="overlay"></div>
+      <div class="play-btn">▶</div>
+    </div>
+  </div>
+</section>
+
+<!-- LAYOUT: sidebar + konten -->
+<div class="page-wrapper">
+
+  <aside class="sidebar">
+    <h3>Beranda</h3>
+    <ul>
+      <li>Trending</li>
+      <li>Discover</li>
+      <li>Radio</li>
+      <li>Favorite</li>
+    </ul>
+    <p class="playlist-title">Playlist saya</p>
+    <ul>
+      <li>Pagi udah nyampe</li>
+      <li>Late night</li>
+      <li>Melankolis</li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-scroll">
+
+    <div class="section-title">
+      <h2>Popular song</h2>
+      <span>Lihat semua →</span>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <img src="sedia.png" alt="Sedia Aku Sebelum Hujan">
+        <h4>Sedia Aku Sebelum Hujan</h4>
+        <p>Idgitaf</p>
+      </div>
+      <div class="card">
+        <img src="bahagia lagi.png" alt="Bahagia Lagi">
+        <h4>Bahagia Lagi</h4>
+        <p>Piche Kota</p>
+      </div>
+      <div class="card">
+        <img src="puting beliung.png" alt="Puting Beliung">
+        <h4>Puting Beliung</h4>
+        <p>Tenxi, Jemsi</p>
+      </div>
+      <div class="card">
+        <img src="everything.png" alt="Everything You Are">
+        <h4>Everything You Are</h4>
+        <p>Feast</p>
+      </div>
+      <div class="card">
+        <img src="bersanja.png" alt="Bersenja Gurau">
+        <h4>Bersenja Gurau</h4>
+        <p>Raim Laode</p>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <h2>Recommended for you</h2>
+      <span>Lihat semua →</span>
+    </div>
+
+    <div class="list">
+      <div class="music">
+        <span class="play">▶</span>
+        <div class="song-info">
+          <p class="title">Kota ini tak sama tanpamu</p>
+          <small class="artist-name">Nadhif Basmalah</small>
+        </div>
+      </div>
+      <div class="music">
+        <span class="play">▶</span>
+        <div class="song-info">
+          <p class="title">Tarot</p>
+          <small class="artist-name">Feast</small>
+        </div>
+      </div>
+      <div class="music">
+        <span class="play">▶</span>
+        <div class="song-info">
+          <p class="title">Somebody's Pleasure</p>
+          <small class="artist-name">Aziz Hendra</small>
+        </div>
+      </div>
+      <div class="music">
+        <span class="play">▶</span>
+        <div class="song-info">
+          <p class="title">Mangu</p>
+          <small class="artist-name">Fourtwnty</small>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- PLAYER BAR (STICKY BOTTOM) -->
+<div class="player-bar">
+
+  <!-- Kiri: info lagu -->
+  <div class="player-info">
+    <img class="player-thumb" src="sedia.png" alt="cover">
+    <div class="player-text">
+      <div class="player-title">Sedia Aku Sebelum Hujan</div>
+      <div class="player-artist">Idgitaf</div>
+    </div>
+  </div>
+
+  <!-- Tengah: kontrol + progress -->
+  <div class="player-controls">
+    <div class="player-buttons">
+      <button class="ctrl-btn" title="Shuffle">⇄</button>
+      <button class="ctrl-btn" title="Previous">⏮</button>
+      <button class="ctrl-btn play-main" title="Play">▶</button>
+      <button class="ctrl-btn" title="Next">⏭</button>
+      <button class="ctrl-btn" title="Repeat">↺</button>
+    </div>
+    <div class="player-progress">
+      <span class="progress-time">1:24</span>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+      <span class="progress-time">3:52</span>
+    </div>
+  </div>
+
+  <!-- Kanan: volume -->
+  <div class="player-volume">
+    <span class="vol-icon">🔊</span>
+    <div class="vol-bar">
+      <div class="vol-fill"></div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
+
+<div class="player-bar">
+  <div class="player-info"> ... </div>      
+  <div class="player-controls"> ... </div>  
+  <div class="player-volume"> ... </div>    
+</div>
