@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tugas 1 - Pemanggilan JS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* Membuat seluruh konten berada di tengah secara horizontal */
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .kotak {
+            width: 100%;
+            max-width: 500px; /* Lebar maksimal kotak */
+            background: white;
+            border-radius: 10px; 
+            padding: 20px; 
+            margin: 15px 0; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            /* Membuat teks dan tombol di dalam kotak jadi di tengah */
+            text-align: center; 
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Cara Memanggil JavaScript</h1>
+
+    <div class="kotak">
+        <h2>1. JavaScript Inline</h2>
+        <p>Ditulis langsung di dalam atribut HTML.</p>
+        
+        <button onclick="alert('Ini Alert dari Inline!'); console.log('Log: Tombol Inline diklik')">
+            Klik Cara Inline
+        </button>
+    </div>
+
+    <div class="kotak">
+        <h2>2. JavaScript Embed</h2>
+        <p>Kode berada di dalam tag script di file yang sama.</p>
+        
+        <button onclick="panggilEmbed()">Klik Cara Embed</button>
+    </div>
+
+    <script>
+        function panggilEmbed() {
+            // Output ke layar
+            alert("Ini muncul dari fungsi Embed!");
+            
+            // Output ke console (Penting untuk tugasmu)
+            console.log("Log: Fungsi panggilEmbed dijalankan.");
+        }
+    </script>
+
+    <div class="kotak">
+        <h2>3. JavaScript Eksternal (File Terpisah .js)</h2>
+        <p>JavaScript ditulis di file terpisah bernama <code>script_luar.js</code>.</p>
+    
+        <button onclick="pesanDariEksternal()">Klik Cara Eksternal</button>
+    </div>
+    <script src="script_luar.js"></script>
+    
+</body>
+</html>

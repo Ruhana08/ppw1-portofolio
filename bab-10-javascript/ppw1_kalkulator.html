@@ -1,0 +1,332 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+<style>
+  body { background: transparent; }
+  .section-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+  }
+  .btn-ppw {
+    background: transparent;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-ppw:hover { background: var(--color-background-secondary); }
+  .btn-ppw.btn-yes {
+    border-color: #1D9E75;
+    color: #0F6E56;
+    background: #E1F5EE;
+  }
+  .btn-ppw.btn-no {
+    border-color: #D85A30;
+    color: #993C1D;
+    background: #FAECE7;
+  }
+  .form-control-ppw {
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 8px 12px;
+    font-size: 14px;
+    color: var(--color-text-primary);
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-control-ppw:focus { border-color: var(--color-border-primary); }
+  .alert-denied {
+    background: #FAECE7;
+    border: 0.5px solid #D85A30;
+    border-radius: var(--border-radius-md);
+    padding: 1rem 1.25rem;
+    color: #993C1D;
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  table.result-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.result-table th {
+    background: var(--color-background-secondary);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    padding: 8px 12px;
+    border-bottom: 0.5px solid var(--color-border-secondary);
+    text-align: left;
+  }
+  table.result-table td {
+    padding: 8px 12px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  .calc-display {
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 12px 16px;
+    text-align: right;
+    margin-bottom: 12px;
+    min-height: 64px;
+  }
+  .calc-expr { font-size: 13px; color: var(--color-text-tertiary); min-height: 18px; }
+  .calc-val { font-size: 26px; font-weight: 500; color: var(--color-text-primary); }
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .calc-btn {
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 14px 4px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.1s, transform 0.08s;
+    user-select: none;
+  }
+  .calc-btn:hover { background: var(--color-background-primary); border-color: var(--color-border-secondary); }
+  .calc-btn:active { transform: scale(0.96); }
+  .calc-btn.op { color: #185FA5; background: #E6F1FB; border-color: #85B7EB; }
+  .calc-btn.op:hover { background: #B5D4F4; }
+  .calc-btn.eq { background: #1D9E75; color: #fff; border-color: #0F6E56; }
+  .calc-btn.eq:hover { background: #0F6E56; }
+  .calc-btn.clear { color: #993C1D; background: #FAECE7; border-color: #F0997B; }
+  .calc-btn.clear:hover { background: #F5C4B3; }
+  .calc-btn.zero { grid-column: span 2; }
+  .calc-btn.mod { color: #663d00; background: #FAEEDA; border-color: #FAC775; }
+</style>
+
+<div style="padding: 1.5rem 0;">
+
+  <div class="section-card" id="section-ask">
+    <div class="section-title">verifikasi praktikan</div>
+    <p style="font-size: 15px; color: var(--color-text-primary); margin-bottom: 1.25rem;">Apakah anda praktikan PPW1?</p>
+    <div style="display: flex; gap: 10px;">
+      <button class="btn-ppw btn-yes" onclick="handleAnswer(true)">✓ Ya, saya praktikan PPW1</button>
+      <button class="btn-ppw btn-no" onclick="handleAnswer(false)">✕ Bukan</button>
+    </div>
+  </div>
+
+  <div class="section-card" id="section-form" style="display:none;">
+    <div class="section-title">data praktikan</div>
+    <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.25rem;">
+      <div>
+        <label style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; display: block;">Nama Lengkap</label>
+        <input class="form-control-ppw" id="inp-nama" type="text" placeholder="Masukkan nama lengkap...">
+      </div>
+      <div>
+        <label style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; display: block;">NIM</label>
+        <input class="form-control-ppw" id="inp-nim" type="text" placeholder="Masukkan NIM...">
+      </div>
+      <div>
+        <label style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; display: block;">Angkatan</label>
+        <input class="form-control-ppw" id="inp-angkatan" type="text" placeholder="Masukkan angkatan (contoh: 2023)">
+      </div>
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <button class="btn-ppw" style="background:#1D9E75;color:#fff;border-color:#0F6E56;" onclick="submitForm()">Tampilkan Data</button>
+      <button class="btn-ppw" onclick="resetAll()">Ulangi</button>
+    </div>
+    <p id="form-err" style="font-size: 12px; color: #D85A30; margin-top: 8px; display:none;">Harap isi semua field terlebih dahulu.</p>
+  </div>
+
+  <div class="section-card" id="section-result" style="display:none;">
+    <div class="section-title">data praktikan PPW1</div>
+    <table class="result-table table table-bordered">
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>NIM</th>
+          <th>Angkatan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="res-nama">-</td>
+          <td id="res-nim">-</td>
+          <td id="res-angkatan">-</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn-ppw" style="margin-top: 8px;" onclick="resetAll()">Input ulang</button>
+  </div>
+
+  <div id="section-denied" style="display:none; margin-bottom: 1.5rem;">
+    <div class="alert-denied">
+      <span style="font-size: 22px;">🚫</span>
+      <span>Anda bukan praktikan PPW1, anda tidak boleh masuk!</span>
+    </div>
+    <button class="btn-ppw" style="margin-top: 10px;" onclick="resetAll()">Coba lagi</button>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">kalkulator</div>
+    <div class="calc-display">
+      <div class="calc-expr" id="calc-expr"></div>
+      <div class="calc-val" id="calc-val">0</div>
+    </div>
+    <div class="calc-grid">
+      <button class="calc-btn clear" onclick="calcClear()">AC</button>
+      <button class="calc-btn clear" onclick="calcSign()">+/−</button>
+      <button class="calc-btn mod" onclick="calcPercent()">%</button>
+      <button class="calc-btn op" onclick="calcOp('/')">÷</button>
+
+      <button class="calc-btn" onclick="calcNum('7')">7</button>
+      <button class="calc-btn" onclick="calcNum('8')">8</button>
+      <button class="calc-btn" onclick="calcNum('9')">9</button>
+      <button class="calc-btn op" onclick="calcOp('*')">×</button>
+
+      <button class="calc-btn" onclick="calcNum('4')">4</button>
+      <button class="calc-btn" onclick="calcNum('5')">5</button>
+      <button class="calc-btn" onclick="calcNum('6')">6</button>
+      <button class="calc-btn op" onclick="calcOp('-')">−</button>
+
+      <button class="calc-btn" onclick="calcNum('1')">1</button>
+      <button class="calc-btn" onclick="calcNum('2')">2</button>
+      <button class="calc-btn" onclick="calcNum('3')">3</button>
+      <button class="calc-btn op" onclick="calcOp('+')">+</button>
+
+      <button class="calc-btn zero" onclick="calcNum('0')">0</button>
+      <button class="calc-btn" onclick="calcDot()">.</button>
+      <button class="calc-btn eq" onclick="calcEquals()">=</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function handleAnswer(yes) {
+  document.getElementById('section-ask').style.display = 'none';
+  if (yes) {
+    document.getElementById('section-form').style.display = 'block';
+  } else {
+    document.getElementById('section-denied').style.display = 'block';
+  }
+}
+
+function submitForm() {
+  const nama = document.getElementById('inp-nama').value.trim();
+  const nim = document.getElementById('inp-nim').value.trim();
+  const angkatan = document.getElementById('inp-angkatan').value.trim();
+  const err = document.getElementById('form-err');
+  if (!nama || !nim || !angkatan) {
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  document.getElementById('res-nama').textContent = nama;
+  document.getElementById('res-nim').textContent = nim;
+  document.getElementById('res-angkatan').textContent = angkatan;
+  document.getElementById('section-form').style.display = 'none';
+  document.getElementById('section-result').style.display = 'block';
+}
+
+function resetAll() {
+  document.getElementById('section-ask').style.display = 'block';
+  document.getElementById('section-form').style.display = 'none';
+  document.getElementById('section-result').style.display = 'none';
+  document.getElementById('section-denied').style.display = 'none';
+  document.getElementById('inp-nama').value = '';
+  document.getElementById('inp-nim').value = '';
+  document.getElementById('inp-angkatan').value = '';
+}
+
+let calcCurrent = '0', calcPrev = '', calcOperator = '', calcNewNum = true;
+
+function updateDisplay() {
+  const d = document.getElementById('calc-val');
+  const e = document.getElementById('calc-expr');
+  const opMap = {'+':'+','-':'−','*':'×','/':'÷'};
+  if (calcOperator) {
+    e.textContent = calcPrev + ' ' + (opMap[calcOperator] || calcOperator);
+  } else {
+    e.textContent = '';
+  }
+  let v = parseFloat(calcCurrent);
+  d.textContent = isNaN(v) ? 'Error' : calcCurrent;
+}
+
+function calcNum(n) {
+  if (calcNewNum) { calcCurrent = n; calcNewNum = false; }
+  else {
+    if (calcCurrent === '0' && n !== '.') calcCurrent = n;
+    else calcCurrent += n;
+  }
+  updateDisplay();
+}
+
+function calcDot() {
+  if (calcNewNum) { calcCurrent = '0.'; calcNewNum = false; }
+  else if (!calcCurrent.includes('.')) calcCurrent += '.';
+  updateDisplay();
+}
+
+function calcOp(op) {
+  if (calcOperator && !calcNewNum) {
+    const r = operate(parseFloat(calcPrev), parseFloat(calcCurrent), calcOperator);
+    calcCurrent = String(+r.toFixed(10));
+    calcPrev = calcCurrent;
+  } else {
+    calcPrev = calcCurrent;
+  }
+  calcOperator = op;
+  calcNewNum = true;
+  updateDisplay();
+}
+
+function operate(a, b, op) {
+  if (op === '+') return a + b;
+  if (op === '-') return a - b;
+  if (op === '*') return a * b;
+  if (op === '/') return b === 0 ? NaN : a / b;
+  return b;
+}
+
+function calcEquals() {
+  if (!calcOperator) return;
+  const r = operate(parseFloat(calcPrev), parseFloat(calcCurrent), calcOperator);
+  const opMap = {'+':'+','-':'−','*':'×','/':'÷'};
+  document.getElementById('calc-expr').textContent = calcPrev + ' ' + (opMap[calcOperator]||calcOperator) + ' ' + calcCurrent + ' =';
+  calcCurrent = isNaN(r) ? 'Error' : String(+r.toFixed(10));
+  calcOperator = ''; calcPrev = ''; calcNewNum = true;
+  document.getElementById('calc-val').textContent = calcCurrent;
+}
+
+function calcClear() {
+  calcCurrent = '0'; calcPrev = ''; calcOperator = ''; calcNewNum = true;
+  updateDisplay();
+}
+
+function calcSign() {
+  if (calcCurrent === '0' || calcCurrent === 'Error') return;
+  calcCurrent = calcCurrent.startsWith('-') ? calcCurrent.slice(1) : '-' + calcCurrent;
+  updateDisplay();
+}
+
+function calcPercent() {
+  const v = parseFloat(calcCurrent);
+  if (!isNaN(v)) { calcCurrent = String(+(v / 100).toFixed(10)); updateDisplay(); }
+}
+</script>

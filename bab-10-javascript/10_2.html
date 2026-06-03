@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Tugas 2 - Variasi Output JavaScript</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #eef2f3;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        h1 { color: #2c3e50; margin-bottom: 30px; }
+
+        .kotak {
+            width: 100%;
+            max-width: 550px;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .area-output {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px dashed #3498db;
+            background-color: #f7fbfe;
+            min-height: 50px;
+            color: #34495e;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        button:hover { background-color: #2980b9; transform: scale(1.05); }
+
+        .info-write { color: #e67e22; font-style: italic; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <h1>4 Variasi Output JavaScript</h1>
+
+    <div class="kotak">
+        <h2>Demo Output</h2>
+        <p>Klik tombol di bawah untuk melihat bagaimana JavaScript menampilkan data dengan cara yang berbeda-beda.</p>
+        
+        <div id="hasil-inner" class="area-output">
+            Menunggu aksi (innerHTML)...
+        </div>
+
+        <button onclick="jalankanSemuaOutput()">Jalankan Output!</button>
+
+        <div class="info-write">
+            <script>
+                document.write("Hasil 3: Ini muncul dari document.write()");
+            </script>
+        </div>
+    </div>
+
+    <script>
+        
+        function jalankanSemuaOutput() {
+            // 1. console.log (Hasil 1)
+            console.log("Hasil 1: Ini adalah output dari console.log()");
+            console.warn("Peringatan: Ini adalah contoh console.warn()");
+            console.error("Peringatan: Ini adalah contoh console.error()");
+
+            // 2. alert (Hasil 2) - SEKARANG JADI HASIL 2 YA!
+            alert("Hasil 2: Ini adalah output dari alert()");
+
+            // 3. innerHTML (Hasil 4 - karena document.write biasanya jalan duluan pas loading)
+            var wadah = document.getElementById("hasil-inner");
+            wadah.innerHTML = "Hasil 4: Teks ini diubah menggunakan innerHTML!";
+        }
+    </script>
+
+</body>
+</html>

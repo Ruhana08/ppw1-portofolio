@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalkulator Rapi PPW1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .calc-container { width: 320px; background: #222; border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .screen { 
+            background: #333; color: white; font-size: 2rem; text-align: right; 
+            padding: 15px; border-radius: 10px; margin-bottom: 20px; min-height: 70px; word-wrap: break-word;
+        }
+        .btn-calc { 
+            width: 100%; height: 60px; border-radius: 10px; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; 
+        }
+        .btn-operator { background-color: #555; color: white; }
+        .btn-operator:hover { background-color: #777; }
+        .btn-equal { background-color: #0d6efd; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="calc-container">
+    <div id="display" class="screen">0</div>
+
+    <div class="row g-2"> <div class="col-3"><button class="btn btn-danger btn-calc" onclick="bersihkan()">C</button></div>
+        <div class="col-3"><button class="btn btn-operator btn-calc" onclick="tambahKarakter('/')">/</button></div>
+        <div class="col-3"><button class="btn btn-operator btn-calc" onclick="tambahKarakter('*')">x</button></div>
+        <div class="col-3"><button class="btn btn-operator btn-calc" onclick="tambahKarakter('-')">-</button></div>
+
+        <div class="col-3"><button class="btn btn-light btn-calc" onclick="tambahKarakter('7')">7</button></div>
+        <div class="col-3"><button class="btn btn-light btn-calc" onclick="tambahKarakter('8')">8</button></div>
+        <div class="col-3"><button class="btn btn-light btn-calc" onclick="tambahKarakter('9')">9</button></div>
+        <div class="col-3"><button class="btn btn-operator btn-calc" onclick="tambahKarakter('+')">+</button></div>
+
+        <div class="col-3"><button class="btn btn-light btn-calc" onclick="tambahKarakter('4')">4</button></div>
+        <div class="col-3"><button class="btn btn-light btn-calc" onclick="tambahKarakter('5')">5</button></div>
+        <div class="col-3"><button class="btn btn-light btn-calc" onclick="tambahKarakter('6')">6</button></div>
+        <div class="col-3"><button class="btn btn-equal btn-calc" onclick="hitung()">=</button></div>
+
+        <div class="col-3"><button class="btn btn-light btn-calc" onclick="tambahKarakter('1')">1</button></div>
+        <div class="col-3"><button class="btn btn-light btn-calc" onclick="tambahKarakter('2')">2</button></div>
+        <div class="col-3"><button class="btn btn-light btn-calc" onclick="tambahKarakter('3')">3</button></div>
+        <div class="col-3"><button class="btn btn-light btn-calc" onclick="tambahKarakter('0')">0</button></div>
+    </div>
+</div>
+
+<script>
+    let layar = document.getElementById("display");
+
+    function tambahKarakter(input) {
+        if (layar.innerText === "0" && !isNaN(input)) {
+            layar.innerText = input;
+        } else {
+            layar.innerText += input;
+        }
+    }
+
+    function bersihkan() {
+        layar.innerText = "0";
+    }
+
+    function hitung() {
+        try {
+            // Kita gunakan eval untuk menghitung string matematika
+            layar.innerText = eval(layar.innerText);
+        } catch (e) {
+            layar.innerText = "Error";
+            setTimeout(bersihkan, 1000);
+        }
+    }
+</script>
+
+</body>
+</html>
