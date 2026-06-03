@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tugas 2 — Flexbox Landing Page</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-base-100">
+
+  <div class="navbar bg-base-100 shadow-sm sticky top-0 z-50 px-6">
+
+    <div class="navbar-start">
+      <a href="#" class="text-xl font-bold text-primary">Logo<span class="font-light">Studio</span></a>
+    </div>
+
+    <div class="navbar-end hidden md:flex gap-2">
+      <a href="#" class="btn btn-ghost btn-sm">Layanan</a>
+      <a href="#" class="btn btn-ghost btn-sm">Portofolio</a>
+      <a href="#" class="btn btn-ghost btn-sm">Tentang</a>
+      <a href="#" class="btn btn-primary btn-sm">Hubungi Kami</a>
+    </div>
+
+    <div class="navbar-end md:hidden">
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn btn-ghost btn-sm">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </label>
+        <ul tabindex="0" class="dropdown-content menu menu-sm bg-base-100 shadow-lg rounded-box w-40 mt-2 z-50">
+          <li><a href="#">Layanan</a></li>
+          <li><a href="#">Portofolio</a></li>
+          <li><a href="#">Tentang</a></li>
+          <li><a href="#" class="text-primary font-semibold">Hubungi Kami</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <section class="hero min-h-[calc(100vh-4rem)] bg-base-100">
+    <div class="hero-content flex-col-reverse md:flex-row-reverse gap-10 max-w-5xl mx-auto px-6 py-16">
+
+      <div class="flex-1 flex justify-center p-4">
+        <div id="tilt-card" class="relative w-full max-w-[420px] aspect-[1.6/1] [perspective:1000px] cursor-pointer">
+          <div id="card-content" class="relative w-full h-full rounded-2xl transition-all duration-150 ease-out [transform-style:preserve-3d] shadow-2xl overflow-hidden border border-white/10 bg-slate-900">
+            
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-900 to-primary rounded-2xl overflow-hidden border border-white/10">
+              <div class="absolute -top-10 -right-10 w-32 h-32 bg-yellow-400/20 rounded-full blur-2xl group-hover:bg-yellow-400/40 transition-colors"></div>
+              <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+            </div>
+
+            <div class="relative h-full p-8 flex flex-col justify-between text-white [transform:translateZ(60px)] pointer-events-none">
+              <div class="flex justify-between items-start">
+                <div class="flex flex-col">
+                  <span class="text-xs uppercase tracking-[0.3em] opacity-60">Creative Studio</span>
+                  <div class="h-1 w-12 bg-yellow-400 mt-1"></div>
+                </div>
+                <div class="text-4xl group-hover:scale-110 transition-transform duration-500">🎨</div>
+              </div>
+
+              <div>
+                <h2 class="text-3xl font-black tracking-tight leading-tight uppercase">
+                  Tagline <br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">produk</span>
+                </h2>
+              </div>
+
+              <div class="flex justify-between items-end border-t border-white/10 pt-4">
+                <div class="flex flex-col">
+                  <span class="text-[10px] opacity-50 uppercase">Identity No.</span>
+                  <span class="text-sm font-mono tracking-widest">LS-2026-BNDG</span>
+                </div>
+                <div class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 text-xs font-bold uppercase tracking-wider">
+                  LogoStudio
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-1 max-w-lg">
+        <div class="badge badge-outline badge-primary mb-4">✦ Studio Desain Digital</div>
+        <h1 class="text-4xl md:text-5xl font-black leading-tight mb-4">
+          Headline
+          <span class="text-primary">digital.</span>
+        </h1>
+        <p class="text-base-content/70 text-lg mb-8 leading-relaxed">
+          Subheadline atau diskripsi tentang produk atau jasa yang ditawarkan
+        </p>
+
+        <div class="flex flex-wrap gap-3 mb-10">
+          <a href="#" class="btn btn-primary">Mulai Proyek →</a>
+          <a href="#" class="btn btn-outline">Lihat Karya</a>
+        </div>
+
+        <div class="stats stats-horizontal shadow-sm border border-base-200">
+          <div class="stat px-5 py-3">
+            <div class="stat-value text-2xl text-primary">180+</div>
+            <div class="stat-desc">Proyek Selesai</div>
+          </div>
+          <div class="stat px-5 py-3">
+            <div class="stat-value text-2xl text-primary">97%</div>
+            <div class="stat-desc">Klien Puas</div>
+          </div>
+          <div class="stat px-5 py-3">
+            <div class="stat-value text-2xl text-primary">6th</div>
+            <div class="stat-desc">Pengalaman</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="bg-base-200 py-20 px-6">
+    <div class="max-w-5xl mx-auto">
+
+      <!-- Header section -->
+      <div class="text-center mb-12">
+        <div class="badge badge-primary badge-outline mb-3">Layanan Kami</div>
+        <h2 class="text-3xl md:text-4xl font-black">Section Heading</h2>
+        <p class="text-base-content/60 mt-3 max-w-md mx-auto">
+          Section Description
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-5 justify-center">
+
+        <div class="card bg-base-100 shadow-sm hover:shadow-md transition-shadow w-72">
+          <div class="card-body">
+            <div class="text-3xl mb-1">◐</div>
+            <h3 class="card-title">Card Title1</h3>
+            <p class="text-sm text-base-content/65">
+              Card Description 1
+            </p>
+            <div class="card-actions mt-2">
+              <a href="#" class="group/link inline-flex items-center gap-1 text-sm font-bold text-primary no-underline">
+                Selengkapnya 
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  class="w-4 h-4 transition-transform duration-300 group-hover/link:-translate-y-1 group-hover/link:translate-x-1" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor" 
+                  stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-sm hover:shadow-md transition-shadow w-72">
+          <div class="card-body">
+            <div class="text-3xl mb-1">◑</div>
+            <h3 class="card-title">Card Title2</h3>
+            <p class="text-sm text-base-content/65">
+              Card Description 2
+            </p>
+            <div class="card-actions mt-2">
+              <a href="#" class="group/link inline-flex items-center gap-1 text-sm font-bold text-primary no-underline">
+                Selengkapnya 
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  class="w-4 h-4 transition-transform duration-300 group-hover/link:-translate-y-1 group-hover/link:translate-x-1" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor" 
+                  stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card bg-primary text-primary-content shadow-sm w-72">
+          <div class="card-body justify-between">
+            <p class="text-lg font-bold leading-snug">Call To Action Heading</p>
+            <p class="text-sm opacity-80 mb-2">CTA Description.</p>
+            <div class="card-actions">
+              <a href="#" class="btn btn-sm bg-white text-primary hover:bg-base-200 border-none">
+                Hubungi Kami →
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer footer-center bg-neutral text-neutral-content p-0">
+
+    <div class="footer p-10 max-w-5xl mx-auto w-full">
+
+      <!-- Kolom 1: Brand -->
+      <nav>
+        <p class="text-xl font-black text-white mb-1">
+          Logo<span class="font-light opacity-70">Studio</span>
+        </p>
+        <p class="text-sm opacity-50 max-w-[220px] leading-relaxed">
+          Footer Description.
+        </p>
+        <div class="flex gap-2 mt-3">
+          <a href="#" class="btn btn-ghost btn-xs opacity-50 hover:opacity-100">Ig</a>
+          <a href="#" class="btn btn-ghost btn-xs opacity-50 hover:opacity-100">Li</a>
+          <a href="#" class="btn btn-ghost btn-xs opacity-50 hover:opacity-100">Dr</a>
+          <a href="#" class="btn btn-ghost btn-xs opacity-50 hover:opacity-100">Be</a>
+        </div>
+      </nav>
+
+      <nav>
+        <h6 class="footer-title">Navigasi</h6>
+        <a href="#" class="link link-hover">Beranda</a>
+        <a href="#" class="link link-hover">Layanan</a>
+        <a href="#" class="link link-hover">Portofolio</a>
+        <a href="#" class="link link-hover">Tentang Kami</a>
+        <a href="#" class="link link-hover">Blog</a>
+      </nav>
+
+      <nav>
+        <h6 class="footer-title">Hubungi Kami</h6>
+        <a href="mailto:halo@Logostudio.id" class="link link-hover">halo@Logostudio.id</a>
+        <a href="tel:+6281234567890" class="link link-hover">+62 812-3456-7890</a>
+        <a href="#" class="link link-hover">Jl. Malioboro No. 10, Yogyakarta</a>
+        <a href="#" class="btn btn-primary btn-sm mt-3">Mulai Proyek →</a>
+      </nav>
+
+    </div>
+  </footer>
+<script>
+  const card = document.getElementById('tilt-card');
+  const content = document.getElementById('card-content');
+  const spotlight = document.getElementById('spotlight');
+
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left; // posisi x kursor di dalam elemen
+    const y = e.clientY - rect.top;  // posisi y kursor di dalam elemen
+
+    // Hitung rotasi (maksimal 15 derajat)
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -15; 
+    const rotateY = ((x - centerX) / centerX) * 15;
+
+    // Terapkan rotasi
+    content.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    
+    // Update posisi spotlight cahaya
+    card.style.setProperty('--x', `${x}px`);
+    card.style.setProperty('--y', `${y}px`);
+    spotlight.style.opacity = "1";
+  });
+
+  // Kembalikan ke posisi semula saat kursor keluar
+  card.addEventListener('mouseleave', () => {
+    content.style.transform = `rotateX(0deg) rotateY(0deg)`;
+    spotlight.style.opacity = "0";
+  });
+</script>
+</body>
+</html>

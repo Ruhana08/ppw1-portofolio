@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tugas 3 — Animasi & Transisi</title>
+  <style>
+    /* ════════════════════════════════════════════════════
+   TUGAS 3 — Animasi & Transisi
+   File    : tugas3-style.css
+
+   DAFTAR ISI
+   ──────────
+   1.  CSS Variables        ← palet warna global
+   2.  Reset & Base
+   3.  Layout
+   4.  Header & Footer
+   5.  Section
+   6.  ① Tombol             ← transition: warna, transform, box-shadow
+   7.  ② Loading Spinner    ← @keyframes + animation
+   8.  ③ Fade-in Elemen     ← animasi opacity
+   9.  ④ Palet Warna        ← tampilan variabel
+   10. ⭐ Bonus Flip Card    ← transform: rotateY()
+   ════════════════════════════════════════════════════ */
+
+
+/* ────────────────────────────────────────────────────
+   1. CSS VARIABLES — ④ Palet warna didefinisikan di sini
+   Dipakai di seluruh file dengan var(--nama)
+   ──────────────────────────────────────────────────── */
+:root {
+  /* Warna utama */
+  --clr-primary:    #4f46e5;    /* indigo */
+  --clr-secondary:  #7c3aed;    /* violet */
+  --clr-accent:     #ec4899;    /* pink */
+  --clr-success:    #10b981;    /* emerald */
+  --clr-warning:    #f59e0b;    /* amber */
+
+  /* Warna UI */
+  --clr-bg:         #f8f8fc;
+  --clr-surface:    #ffffff;
+  --clr-text:       #1e1b4b;
+  --clr-text-soft:  #6b7280;
+  --clr-border:     #e5e7eb;
+
+  /* Efek */
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:  0 4px 16px rgba(79,70,229,0.18);
+  --shadow-lg:  0 8px 32px rgba(79,70,229,0.25);
+
+  /* Ukuran */
+  --radius:     12px;
+  --radius-lg:  20px;
+  --max-w:      860px;
+}
+
+
+/* ────────────────────────────────────────────────────
+   2. RESET & BASE
+   ──────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--clr-bg);           /* pakai CSS variable */
+  color: var(--clr-text);                    /* pakai CSS variable */
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+code {
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--clr-primary);
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 0.82em;
+}
+
+
+/* ────────────────────────────────────────────────────
+   3. LAYOUT
+   ──────────────────────────────────────────────────── */
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--clr-border);
+  margin: 3rem 0;
+}
+
+
+/* ────────────────────────────────────────────────────
+   4. HEADER & FOOTER
+   ──────────────────────────────────────────────────── */
+.site-header {
+  text-align: center;
+  padding: 4rem 1.5rem 3rem;
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.site-title {
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-weight: 900;
+  color: var(--clr-text);
+  letter-spacing: -1px;
+  margin-bottom: 0.5rem;
+}
+
+.site-title span {
+  color: var(--clr-primary);               /* pakai CSS variable */
+}
+
+.site-sub {
+  color: var(--clr-text-soft);             /* pakai CSS variable */
+  font-size: 0.95rem;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.82rem;
+  color: var(--clr-text-soft);
+  border-top: 1px solid var(--clr-border);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+
+/* ────────────────────────────────────────────────────
+   5. SECTION
+   ──────────────────────────────────────────────────── */
+.section {
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--clr-text);
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.section-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--clr-primary);           /* pakai CSS variable */
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.section-desc {
+  color: var(--clr-text-soft);
+  font-size: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+
+
+/* ════════════════════════════════════════════════════
+   6. ① TIGA TOMBOL — transition berbeda-beda
+   ════════════════════════════════════════════════════ */
+.buttons-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.btn-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.btn-label {
+  font-size: 0.72rem;
+  color: var(--clr-text-soft);
+  font-family: monospace;
+}
+
+/* Base tombol */
+.btn {
+  padding: 12px 28px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ── Tombol 1: transisi WARNA ── */
+.btn-color {
+  background-color: var(--clr-primary);     /* pakai CSS variable */
+  color: #ffffff;
+
+  /* TUGAS ①: transition warna */
+  transition: background-color 0.35s ease,
+              color            0.35s ease;
+}
+
+.btn-color:hover {
+  background-color: var(--clr-accent);      /* pakai CSS variable */
+  color: #ffffff;
+}
+
+/* ── Tombol 2: transisi TRANSFORM ── */
+.btn-transform {
+  background-color: transparent;
+  color: var(--clr-secondary);              /* pakai CSS variable */
+  border: 2px solid var(--clr-secondary);
+
+  /* TUGAS ①: transition transform */
+  transition: transform      0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-radius  0.3s ease,
+              background     0.3s ease;
+}
+
+.btn-transform:hover {
+  transform: scale(1.12) rotate(-3deg);     /* bergerak & miring */
+  border-radius: 999px;                     /* berubah jadi pill */
+  background: var(--clr-secondary);
+  color: #fff;
+}
+
+/* ── Tombol 3: transisi BOX-SHADOW ── */
+.btn-shadow {
+  background-color: var(--clr-surface);     /* pakai CSS variable */
+  color: var(--clr-text);
+  border: 1.5px solid var(--clr-border);
+
+  /* TUGAS ①: transition box-shadow */
+  transition: box-shadow    0.35s ease,
+              letter-spacing 0.35s ease,
+              border-color   0.35s ease;
+}
+
+.btn-shadow:hover {
+  box-shadow:
+    0 0 0 3px rgba(79, 70, 229, 0.2),
+    0 0 0 6px rgba(79, 70, 229, 0.1),
+    var(--shadow-lg);                        /* pakai CSS variable */
+  letter-spacing: 1.5px;
+  border-color: var(--clr-primary);
+}
+
+
+/* ════════════════════════════════════════════════════
+   7. ② LOADING SPINNER — @keyframes + animation
+   ════════════════════════════════════════════════════ */
+
+/* ── @keyframes definitions ── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translateY(-14px);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes barGrow {
+  0%, 100% { transform: scaleY(0.3); opacity: 0.4; }
+  50%       { transform: scaleY(1);   opacity: 1;   }
+}
+
+/* ── Layout spinner ── */
+.spinners-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  align-items: center;
+}
+
+.spinner-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spinner-label {
+  font-size: 0.72rem;
+  color: var(--clr-text-soft);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Spinner 1: ring */
+.spinner-ring {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 4px solid rgba(79, 70, 229, 0.15);
+  border-top-color: var(--clr-primary);     /* pakai CSS variable */
+
+  /* TUGAS ②: animation pakai @keyframes spin */
+  animation: spin 0.85s linear infinite;
+}
+
+/* Spinner 2: bouncing dots */
+.spinner-dots {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  height: 48px;
+}
+
+.spinner-dots span {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--clr-secondary);         /* pakai CSS variable */
+
+  /* TUGAS ②: animation pakai @keyframes bounce */
+  animation: bounce 1.1s ease-in-out infinite;
+}
+
+.spinner-dots span:nth-child(2) {
+  animation-delay: 0.15s;
+  background: var(--clr-primary);
+}
+
+.spinner-dots span:nth-child(3) {
+  animation-delay: 0.3s;
+  background: var(--clr-accent);
+}
+
+/* Spinner 3: pulse */
+.spinner-pulse {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--clr-accent);            /* pakai CSS variable */
+
+  /* TUGAS ②: animation pakai @keyframes pulse */
+  animation: pulse 1.2s ease-out infinite;
+}
+
+/* Spinner 4: bars */
+.spinner-bars {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  height: 48px;
+}
+
+.spinner-bars span {
+  display: block;
+  width: 7px;
+  height: 36px;
+  border-radius: 4px;
+  background: var(--clr-success);           /* pakai CSS variable */
+  transform-origin: bottom;
+
+  /* TUGAS ②: animation pakai @keyframes barGrow */
+  animation: barGrow 0.75s ease-in-out infinite;
+}
+
+.spinner-bars span:nth-child(2) { animation-delay: 0.1s;  }
+.spinner-bars span:nth-child(3) { animation-delay: 0.2s;  }
+.spinner-bars span:nth-child(4) { animation-delay: 0.3s;  }
+.spinner-bars span:nth-child(5) { animation-delay: 0.4s;  }
+
+
+/* ════════════════════════════════════════════════════
+   8. ③ FADE-IN — animasi opacity saat halaman dibuka
+   ════════════════════════════════════════════════════ */
+
+/* Seluruh halaman fade-in */
+@keyframes fadeInPage {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  /* TUGAS ③: opacity 0 → 1 saat halaman dibuka */
+  animation: fadeInPage 0.7s ease both;
+}
+
+/* Kotak-kotak kecil yang muncul satu per satu */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.fade-box {
+  flex: 1 1 160px;
+  background: var(--clr-surface);           /* pakai CSS variable */
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  /* TUGAS ③: animasi opacity */
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.fade-box strong {
+  font-size: 0.95rem;
+  color: var(--clr-text);
+}
+
+.fade-box p {
+  font-size: 0.8rem;
+  color: var(--clr-text-soft);
+}
+
+/* Delay berbeda untuk setiap kotak */
+.fade-box--1 { animation-delay: 0.15s; }
+.fade-box--2 { animation-delay: 0.3s;  }
+.fade-box--3 { animation-delay: 0.45s; }
+.fade-box--4 { animation-delay: 0.6s;  }
+
+.fade-box-icon {
+  font-size: 1.6rem;
+  margin-bottom: 0.25rem;
+}
+
+
+/* ════════════════════════════════════════════════════
+   9. ④ PALET WARNA — tampilan visual variabel
+   ════════════════════════════════════════════════════ */
+.palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.swatch {
+  flex: 1 1 110px;
+  height: 70px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: flex-end;
+  padding: 8px 10px;
+}
+
+.swatch span {
+  font-size: 0.65rem;
+  font-family: monospace;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.3;
+}
+
+
+/* ════════════════════════════════════════════════════
+   10. ⭐ BONUS — Flip Card: transform: rotateY()
+   ════════════════════════════════════════════════════ */
+.flip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+/* Container — wajib punya perspective agar 3D terlihat */
+.flip-card {
+  width: 210px;
+  height: 230px;
+  perspective: 800px;  /* BONUS: aktifkan perspektif 3D */
+  cursor: pointer;
+}
+
+/* Elemen yang benar-benar berputar */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+
+  /* BONUS: transition menggunakan rotateY */
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Trigger rotasi saat hover */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);               /* BONUS: rotateY() */
+}
+
+/* Sisi depan & belakang — posisi absolute bertumpuk */
+.flip-front,
+.flip-back {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-align: center;
+
+  /* BONUS: sembunyikan sisi yang tidak menghadap kamera */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-front {
+  background: var(--clr-surface);
+  border: 1.5px solid var(--clr-border);
+}
+
+/* Sisi belakang dibalik 180° agar tidak terbalik */
+.flip-back {
+  transform: rotateY(180deg);               /* BONUS: posisi awal sisi belakang */
+  color: #fff;
+}
+
+/* Tema warna tiap kartu */
+.flip-front--1 { border-color: rgba(79,70,229,0.3); }
+.flip-back--1  { background: linear-gradient(135deg, var(--clr-primary), var(--clr-secondary)); }
+
+.flip-front--2 { border-color: rgba(124,58,237,0.3); }
+.flip-back--2  { background: linear-gradient(135deg, var(--clr-secondary), var(--clr-accent)); }
+
+.flip-front--3 { border-color: rgba(236,72,153,0.3); }
+.flip-back--3  { background: linear-gradient(135deg, var(--clr-accent), var(--clr-warning)); }
+
+.flip-icon {
+  font-size: 2.4rem;
+}
+
+.flip-front strong {
+  font-size: 0.95rem;
+  color: var(--clr-text);
+}
+
+.flip-front small {
+  font-size: 0.7rem;
+  color: var(--clr-text-soft);
+}
+
+.flip-back strong {
+  font-size: 1rem;
+}
+
+.flip-back p {
+  font-size: 0.8rem;
+  opacity: 0.88;
+  line-height: 1.5;
+}
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════
+       ③ FADE-IN SAAT HALAMAN DIBUKA
+       Class .fade-in memakai animasi opacity
+  ═══════════════════════════════════════ -->
+  <div class="fade-in">
+
+    <header class="site-header">
+      <h1 class="site-title">Animasi <span>&</span> Transisi</h1>
+      <p class="site-sub">Tugas 3 — CSS Animation, Transition, Keyframes</p>
+    </header>
+
+    <main class="container">
+
+      <!-- ══════════════════════════════════
+           ① TIGA TOMBOL — efek hover berbeda
+      ═══════════════════════════════════ -->
+      <section class="section">
+        <h2 class="section-title">
+          <span class="section-num">01</span>
+          Tombol dengan Efek Hover
+        </h2>
+        <p class="section-desc">Hover ke setiap tombol untuk melihat efek <code>transition</code> yang berbeda.</p>
+
+        <div class="buttons-group">
+
+          <!-- Tombol 1: transisi WARNA -->
+          <div class="btn-wrap">
+            <button class="btn btn-color">Efek Warna</button>
+            <span class="btn-label">transition: background-color, color</span>
+          </div>
+
+          <!-- Tombol 2: transisi TRANSFORM -->
+          <div class="btn-wrap">
+            <button class="btn btn-transform">Efek Transform</button>
+            <span class="btn-label">transition: transform, border-radius</span>
+          </div>
+
+          <!-- Tombol 3: transisi BOX-SHADOW -->
+          <div class="btn-wrap">
+            <button class="btn btn-shadow">Efek Shadow</button>
+            <span class="btn-label">transition: box-shadow, letter-spacing</span>
+          </div>
+
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- ══════════════════════════════════
+           ② LOADING SPINNER — @keyframes
+      ═══════════════════════════════════ -->
+      <section class="section">
+        <h2 class="section-title">
+          <span class="section-num">02</span>
+          Loading Spinner
+        </h2>
+        <p class="section-desc">Dibuat dengan <code>@keyframes</code> dan properti <code>animation</code>.</p>
+
+        <div class="spinners-row">
+
+          <!-- Spinner 1: ring berputar -->
+          <div class="spinner-wrap">
+            <div class="spinner spinner-ring"></div>
+            <span class="spinner-label">Ring<br/><code>rotate(360deg)</code></span>
+          </div>
+
+          <!-- Spinner 2: dots bouncing -->
+          <div class="spinner-wrap">
+            <div class="spinner-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span class="spinner-label">Bounce<br/><code>translateY</code></span>
+          </div>
+
+          <!-- Spinner 3: pulse -->
+          <div class="spinner-wrap">
+            <div class="spinner spinner-pulse"></div>
+            <span class="spinner-label">Pulse<br/><code>scale + opacity</code></span>
+          </div>
+
+          <!-- Spinner 4: bar equalizer -->
+          <div class="spinner-wrap">
+            <div class="spinner-bars">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <span class="spinner-label">Bars<br/><code>scaleY</code></span>
+          </div>
+
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- ══════════════════════════════════
+           ③ ELEMEN FADE-IN (opacity)
+           Beberapa elemen muncul bertahap
+      ═══════════════════════════════════ -->
+      <section class="section">
+        <h2 class="section-title">
+          <span class="section-num">03</span>
+          Fade-In Saat Halaman Dibuka
+        </h2>
+        <p class="section-desc">Setiap kotak muncul bertahap menggunakan animasi <code>opacity</code> dengan <code>animation-delay</code>.</p>
+
+        <div class="fade-boxes">
+          <div class="fade-box fade-box--1">
+            <span class="fade-box-icon">⚡</span>
+            <strong>Cepat</strong>
+            <p>Delay 0.1s</p>
+          </div>
+          <div class="fade-box fade-box--2">
+            <span class="fade-box-icon">🎯</span>
+            <strong>Berurutan</strong>
+            <p>Delay 0.3s</p>
+          </div>
+          <div class="fade-box fade-box--3">
+            <span class="fade-box-icon">✨</span>
+            <strong>Halus</strong>
+            <p>Delay 0.5s</p>
+          </div>
+          <div class="fade-box fade-box--4">
+            <span class="fade-box-icon">🚀</span>
+            <strong>Smooth</strong>
+            <p>Delay 0.7s</p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- ══════════════════════════════════
+           ④ CSS VARIABLES — palet warna
+      ═══════════════════════════════════ -->
+      <section class="section">
+        <h2 class="section-title">
+          <span class="section-num">04</span>
+          CSS Variables — Palet Warna
+        </h2>
+        <p class="section-desc">Semua warna di halaman ini menggunakan <code>var(--nama)</code> dari <code>:root</code>.</p>
+
+        <div class="palette">
+          <div class="swatch" style="background: var(--clr-primary)">
+            <span>--clr-primary</span>
+          </div>
+          <div class="swatch" style="background: var(--clr-secondary)">
+            <span>--clr-secondary</span>
+          </div>
+          <div class="swatch" style="background: var(--clr-accent)">
+            <span>--clr-accent</span>
+          </div>
+          <div class="swatch" style="background: var(--clr-success); color: #111">
+            <span>--clr-success</span>
+          </div>
+          <div class="swatch" style="background: var(--clr-warning); color: #111">
+            <span>--clr-warning</span>
+          </div>
+          <div class="swatch" style="background: var(--clr-bg); color: var(--clr-text); border: 1px solid var(--clr-border)">
+            <span>--clr-bg</span>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- ══════════════════════════════════
+           ⭐ BONUS — Flip Card rotateY()
+      ═══════════════════════════════════ -->
+      <section class="section">
+        <h2 class="section-title">
+          <span class="section-num">★</span>
+          Bonus — Flip Card dengan rotateY()
+        </h2>
+        <p class="section-desc">Hover kartu untuk melihat animasi <code>transform: rotateY(180deg)</code>.</p>
+
+        <div class="flip-grid">
+
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-front flip-front--1">
+                <span class="flip-icon">🌊</span>
+                <strong>CSS Transition</strong>
+                <small>hover untuk flip →</small>
+              </div>
+              <div class="flip-back flip-back--1">
+                <strong>CSS Transition</strong>
+                <p>Mengubah property CSS secara halus dari satu state ke state lain.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-front flip-front--2">
+                <span class="flip-icon">🎬</span>
+                <strong>@keyframes</strong>
+                <small>hover untuk flip →</small>
+              </div>
+              <div class="flip-back flip-back--2">
+                <strong>@keyframes</strong>
+                <p>Mendefinisikan langkah-langkah animasi dari 0% hingga 100%.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-front flip-front--3">
+                <span class="flip-icon">🔄</span>
+                <strong>transform</strong>
+                <small>hover untuk flip →</small>
+              </div>
+              <div class="flip-back flip-back--3">
+                <strong>rotateY(180deg)</strong>
+                <p>Memutar elemen pada sumbu Y untuk efek kartu terbalik 3D.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>Tugas 3 — CSS Animation &amp; Transition · 2025</p>
+    </footer>
+
+  </div><!-- /.fade-in -->
+
+</body>
+</html>
