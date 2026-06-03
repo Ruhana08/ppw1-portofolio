@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ruhana Faiz Restiyanti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:       #FAFAFA;
+  --white:    #FFFFFF;
+  --ink:      #0A0A0A;
+  --ink2:     #1A1A1A;
+  --muted:    #888;
+  --muted2:   #BBB;
+  --violet:   #6C63FF;
+  --violet-lt:#EEF0FF;
+  --rose:     #FF6B6B;
+  --amber:    #F5A623;
+  --border:   #EBEBEB;
+  --border2:  #F3F3F3;
+  --sans:     'Inter', sans-serif;
+  --display:  'Clash Display', sans-serif;
+  --serif:    'Instrument Serif', serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:64px;padding:0 clamp(20px,5vw,72px);
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(250,250,250,0.9);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{font-family:var(--display);font-size:18px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-0.02em}
+.nav-logo span{color:var(--violet)}
+.nav-menu{display:flex;gap:36px;list-style:none}
+.nav-menu a{font-size:13px;color:var(--muted);text-decoration:none;font-weight:400;transition:color .2s;letter-spacing:0.01em}
+.nav-menu a:hover{color:var(--ink)}
+.nav-btn{
+  background:var(--ink);color:#fff;font-size:12px;font-weight:600;
+  letter-spacing:0.03em;padding:9px 22px;border-radius:100px;
+  text-decoration:none;transition:opacity .2s,transform .2s;
+}
+.nav-btn:hover{opacity:.85;transform:translateY(-1px)}
+.ham{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:4px;padding:4px}
+.ham span{display:block;width:22px;height:1.5px;background:var(--ink);border-radius:2px;transition:all .3s}
+.mob-nav{
+  display:none;position:fixed;top:64px;left:0;right:0;
+  background:var(--white);border-bottom:1px solid var(--border);
+  padding:28px clamp(20px,5vw,72px);flex-direction:column;gap:20px;z-index:99;
+}
+.mob-nav a{font-size:18px;font-weight:600;font-family:var(--display);color:var(--ink);text-decoration:none;letter-spacing:-0.02em}
+.mob-nav.open{display:flex}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;padding:120px clamp(20px,5vw,72px) 80px;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;
+}
+
+/* subtle grid bg */
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--border2) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border2) 1px,transparent 1px);
+  background-size:48px 48px;
+  -webkit-mask:linear-gradient(to bottom,transparent,rgba(0,0,0,0.3) 20%,rgba(0,0,0,0.3) 80%,transparent);
+  mask:linear-gradient(to bottom,transparent,rgba(0,0,0,0.3) 20%,rgba(0,0,0,0.3) 80%,transparent);
+}
+
+.hero-inner{position:relative;z-index:1;max-width:1200px;width:100%}
+
+.hero-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--violet-lt);color:var(--violet);
+  font-size:12px;font-weight:600;padding:6px 16px;border-radius:100px;
+  margin-bottom:32px;letter-spacing:0.02em;
+}
+.chip-dot{width:6px;height:6px;background:var(--violet);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(.75)}}
+
+.hero-name{
+  font-family:var(--display);
+  font-size:clamp(52px,8vw,120px);
+  font-weight:700;
+  line-height:0.88;
+  letter-spacing:-0.04em;
+  color:var(--ink);
+  margin-bottom:8px;
+}
+.hero-name-italic{
+  font-family:var(--serif);
+  font-size:clamp(52px,8vw,120px);
+  font-style:italic;
+  font-weight:400;
+  color:var(--violet);
+  display:block;
+  line-height:1;
+  letter-spacing:-0.02em;
+}
+
+.hero-bottom{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:40px;margin-top:48px;flex-wrap:wrap;
+}
+.hero-desc{
+  max-width:480px;font-size:16px;line-height:1.75;
+  color:#555;font-weight:400;
+}
+.hero-desc strong{color:var(--ink);font-weight:600}
+.hero-actions{display:flex;gap:12px;align-items:center;flex-shrink:0;flex-wrap:wrap}
+.cta-primary{
+  background:var(--ink);color:#fff;font-size:13px;font-weight:600;
+  padding:13px 28px;border-radius:100px;text-decoration:none;
+  transition:opacity .2s,transform .2s;display:inline-flex;align-items:center;gap:8px;
+}
+.cta-primary:hover{opacity:.85;transform:translateY(-2px)}
+.cta-ghost{
+  color:var(--muted);font-size:13px;font-weight:500;
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  transition:color .2s;padding:13px 0;
+}
+.cta-ghost:hover{color:var(--ink)}
+
+/* scroll indicator */
+.scroll-hint{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  font-size:10px;color:var(--muted2);letter-spacing:0.12em;text-transform:uppercase;
+  font-family:var(--display);
+}
+.scroll-line{width:1px;height:40px;background:linear-gradient(var(--muted2),transparent)}
+
+/* ── STATS BAR ── */
+.stats-bar{
+  background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:0 clamp(20px,5vw,72px);display:flex;align-items:stretch;
+}
+.stat-cell{
+  flex:1;padding:28px 0;text-align:center;
+  border-right:1px solid var(--border);
+}
+.stat-cell:last-child{border-right:none}
+.stat-n{font-family:var(--display);font-size:32px;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-0.03em}
+.stat-n em{color:var(--violet);font-style:normal}
+.stat-l{font-size:11px;color:var(--muted);margin-top:5px;font-weight:400;letter-spacing:0.03em}
+
+/* ── SECTION BASE ── */
+.section{padding:96px clamp(20px,5vw,72px)}
+.section-eyebrow{
+  font-size:11px;font-weight:600;color:var(--violet);
+  letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-eyebrow::after{content:'';flex:0 0 32px;height:1.5px;background:var(--violet);border-radius:2px}
+.section-title{
+  font-family:var(--display);font-size:clamp(28px,4vw,52px);
+  font-weight:700;letter-spacing:-0.03em;color:var(--ink);line-height:1;
+  margin-bottom:56px;
+}
+.section-title em{font-family:var(--serif);font-style:italic;color:var(--violet);font-weight:400}
+
+/* ── EXPERIENCE ── */
+#experience{background:var(--white)}
+.exp-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.exp-card{
+  padding:36px 40px;border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:180px 1fr;gap:32px;
+  transition:background .25s;position:relative;
+}
+.exp-card:last-child{border-bottom:none}
+.exp-card:hover{background:var(--bg)}
+.exp-left{}
+.exp-period{font-size:12px;color:var(--muted);font-weight:400;margin-bottom:10px;font-family:var(--display);letter-spacing:0.01em}
+.exp-badge{
+  display:inline-block;font-size:10px;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:100px;
+}
+.badge-work{background:#FFF0E6;color:#E07B39}
+.badge-org{background:var(--violet-lt);color:var(--violet)}
+.badge-event{background:#F0FFF4;color:#38A169}
+.exp-right{}
+.exp-role{font-family:var(--display);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:4px;letter-spacing:-0.02em}
+.exp-org-name{font-size:13px;color:var(--muted);margin-bottom:18px;font-weight:400}
+.exp-points{display:flex;flex-direction:column;gap:8px}
+.exp-point{
+  display:flex;gap:10px;font-size:13px;color:#555;line-height:1.6;
+}
+.exp-point-dot{
+  width:5px;height:5px;background:var(--violet);border-radius:50%;
+  flex-shrink:0;margin-top:7px;
+}
+
+/* ── SKILLS ── */
+#skills{background:var(--bg)}
+.skills-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.skill-group{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:32px}
+.skill-group-title{
+  font-family:var(--display);font-size:14px;font-weight:700;
+  color:var(--ink);margin-bottom:20px;letter-spacing:-0.01em;
+  display:flex;align-items:center;gap:10px;
+}
+.skill-group-icon{font-size:18px}
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+.skill-pill{
+  font-size:12px;color:#444;background:var(--bg);
+  border:1px solid var(--border);border-radius:100px;
+  padding:6px 14px;font-weight:400;
+  transition:border-color .2s,color .2s,background .2s;cursor:default;
+}
+.skill-pill:hover{border-color:var(--violet);color:var(--violet);background:var(--violet-lt)}
+
+/* ── ABOUT ── */
+#about{background:var(--white)}
+.about-grid{display:grid;grid-template-columns:1fr 420px;gap:80px;align-items:center}
+.about-text{}
+.about-title{font-family:var(--display);font-size:clamp(32px,4vw,56px);font-weight:700;letter-spacing:-0.03em;line-height:0.95;margin-bottom:32px}
+.about-title em{font-family:var(--serif);font-style:italic;color:var(--violet);font-weight:400;display:block;line-height:1.1}
+.about-para{font-size:15px;line-height:1.85;color:#555;margin-bottom:16px}
+.about-para strong{color:var(--ink);font-weight:600}
+.about-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:32px}
+.about-link{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:600;letter-spacing:0.04em;
+  padding:10px 22px;border-radius:100px;text-decoration:none;
+  transition:all .2s;
+}
+.link-primary{background:var(--ink);color:#fff}
+.link-primary:hover{opacity:.85}
+.link-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+.link-ghost:hover{border-color:var(--ink)}
+
+/* profile card */
+.profile-card{background:var(--bg);border:1px solid var(--border);border-radius:24px;overflow:hidden}
+.profile-card-top{background:linear-gradient(135deg,#6c63ff 0%,#9B8CFF 100%);padding:36px;text-align:center}
+.profile-avatar{
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(255,255,255,0.2);border:3px solid rgba(255,255,255,0.5);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-size:24px;font-weight:700;color:#fff;
+  margin:0 auto 16px;letter-spacing:-0.02em;
+}
+.profile-card-name{font-family:var(--display);font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;letter-spacing:-0.02em}
+.profile-card-role{font-size:12px;color:rgba(255,255,255,.75);font-weight:400}
+.profile-card-body{padding:0}
+.profile-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 28px;border-bottom:1px solid var(--border);
+}
+.profile-row:last-child{border-bottom:none}
+.profile-key{font-size:11px;color:var(--muted);font-weight:400}
+.profile-val{font-size:12px;color:var(--ink);font-weight:500;text-align:right;max-width:200px}
+.profile-val.violet{color:var(--violet)}
+
+/* ── MARQUEE ── */
+.marquee{overflow:hidden;padding:20px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--white)}
+.marquee-track{display:flex;gap:0;animation:scroll 25s linear infinite;white-space:nowrap}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee-item{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--display);font-size:13px;font-weight:600;
+  color:var(--ink);letter-spacing:-0.01em;padding:0 28px;
+  border-right:1px solid var(--border);
+}
+.marquee-item span{color:var(--violet);font-size:16px}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--ink);padding:48px clamp(20px,5vw,72px);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:24px;
+}
+.foot-logo{font-family:var(--display);font-size:20px;font-weight:700;color:#fff;letter-spacing:-0.02em}
+.foot-logo em{color:var(--violet);font-style:normal}
+.foot-copy{font-size:12px;color:rgba(255,255,255,.4);font-weight:400}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap}
+.foot-links a{font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;font-weight:400;transition:color .2s}
+.foot-links a:hover{color:#fff}
+
+/* ── SCROLL REVEAL ── */
+.sr{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.sr.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.18s}.d3{transition-delay:.30s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .about-grid .profile-card{max-width:480px}
+}
+@media(max-width:860px){
+  .skills-wrap{grid-template-columns:1fr}
+  .exp-card{grid-template-columns:1fr;gap:12px}
+  .exp-left{display:flex;gap:12px;align-items:center}
+  .nav-menu,.nav-btn{display:none}
+  .ham{display:flex}
+  footer{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:600px){
+  .stats-bar{flex-direction:column;gap:0}
+  .stat-cell{border-right:none;border-bottom:1px solid var(--border)}
+  .stat-cell:last-child{border-bottom:none}
+  .hero-bottom{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Ruhana<span>.</span></a>
+  <ul class="nav-menu">
+    <li><a href="#experience">Pengalaman</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="mailto:ruhanafaiz148@gmail.com" class="nav-btn">Hubungi Saya →</a>
+  <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob-nav" id="mob">
+  <a href="#experience">Pengalaman</a>
+  <a href="#skills">Skills</a>
+  <a href="#about">About</a>
+  <a href="mailto:ruhanafaiz148@gmail.com">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-chip sr"><div class="chip-dot"></div>Open to Opportunities · 2025</div>
+    <div class="hero-name sr d1">
+      Ruhana Faiz
+      <span class="hero-name-italic">Restiyanti.</span>
+    </div>
+    <div class="hero-bottom sr d2">
+      <p class="hero-desc">
+        Mahasiswa <strong>D4 Teknologi Rekayasa Perangkat Lunak — UGM</strong>.<br>
+        Berkomitmen tinggi, adaptif, berpengalaman di organisasi kemahasiswaan & administrasi keuangan.
+      </p>
+      <div class="hero-actions">
+        <a href="#experience" class="cta-primary">Lihat Pengalaman ↓</a>
+        <a href="mailto:ruhanafaiz148@gmail.com" class="cta-ghost">Email saya →</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint sr d3"><div class="scroll-line"></div>Scroll</div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-cell sr"><div class="stat-n">D4<em>.</em></div><div class="stat-l">TRPL — UGM</div></div>
+  <div class="stat-cell sr d1"><div class="stat-n">2<em>+</em></div><div class="stat-l">Organisasi Aktif</div></div>
+  <div class="stat-cell sr d2"><div class="stat-n">3<em>+</em></div><div class="stat-l">Kepanitiaan</div></div>
+  <div class="stat-cell sr d3"><div class="stat-n">5<em>+</em></div><div class="stat-l">Tools & Software</div></div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="marquee-item"><span>✦</span> Python</span>
+    <span class="marquee-item"><span>✦</span> JavaScript</span>
+    <span class="marquee-item"><span>✦</span> HTML & CSS</span>
+    <span class="marquee-item"><span>✦</span> SQL & Database</span>
+    <span class="marquee-item"><span>✦</span> Figma</span>
+    <span class="marquee-item"><span>✦</span> Manajemen Keuangan</span>
+    <span class="marquee-item"><span>✦</span> Microsoft Office</span>
+    <span class="marquee-item"><span>✦</span> Kerja Tim</span>
+    <span class="marquee-item"><span>✦</span> Canva</span>
+    <span class="marquee-item"><span>✦</span> VS Code</span>
+    <span class="marquee-item"><span>✦</span> Python</span>
+    <span class="marquee-item"><span>✦</span> JavaScript</span>
+    <span class="marquee-item"><span>✦</span> HTML & CSS</span>
+    <span class="marquee-item"><span>✦</span> SQL & Database</span>
+    <span class="marquee-item"><span>✦</span> Figma</span>
+    <span class="marquee-item"><span>✦</span> Manajemen Keuangan</span>
+    <span class="marquee-item"><span>✦</span> Microsoft Office</span>
+    <span class="marquee-item"><span>✦</span> Kerja Tim</span>
+    <span class="marquee-item"><span>✦</span> Canva</span>
+    <span class="marquee-item"><span>✦</span> VS Code</span>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section">
+  <div class="section-eyebrow sr">Pengalaman</div>
+  <h2 class="section-title sr d1">Kerja & <em>Organisasi.</em></h2>
+
+  <div class="exp-list sr d2">
+
+    <div class="exp-card">
+      <div class="exp-left">
+        <div class="exp-period">2025 — Sekarang</div>
+        <div><span class="exp-badge badge-work">Kerja</span></div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Asisten Operational</div>
+        <div class="exp-org-name">Fotocopy & ATK Resty</div>
+        <div class="exp-points">
+          <div class="exp-point"><div class="exp-point-dot"></div>Melayani pelanggan dalam layanan fotokopi, printing, dan alat tulis kantor</div>
+          <div class="exp-point"><div class="exp-point-dot"></div>Mengoperasikan mesin fotokopi dan printer secara mandiri</div>
+          <div class="exp-point"><div class="exp-point-dot"></div>Mengelola transaksi dan pencatatan keuangan harian</div>
+          <div class="exp-point"><div class="exp-point-dot"></div>Menjaga kelancaran operasional dan kerapihan toko</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-left">
+        <div class="exp-period">2025 — Sekarang</div>
+        <div><span class="exp-badge badge-org">Organisasi</span></div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Bendahara</div>
+        <div class="exp-org-name">Divisi Kewirausahaan — KMTEDI UGM</div>
+        <div class="exp-points">
+          <div class="exp-point"><div class="exp-point-dot"></div>Menjabat sebagai Bendahara Perwira 2025 dan Bendahara Divisi Kewirausahaan</div>
+          <div class="exp-point"><div class="exp-point-dot"></div>Bertanggung jawab atas pencatatan dan pemeliharaan keuangan kegiatan</div>
+          <div class="exp-point"><div class="exp-point-dot"></div>Mengelola koordinasi Korsa sebagai Penanggung Jawab</div>
+          <div class="exp-point"><div class="exp-point-dot"></div>Berkontribusi dalam operasional Kantin Eatstedi</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-left">
+        <div class="exp-period">Agustus 2025</div>
+        <div><span class="exp-badge badge-event">Kepanitiaan</span></div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Divisi Properti & DDD</div>
+        <div class="exp-org-name">Action Plan Pionir UGM</div>
+        <div class="exp-points">
+          <div class="exp-point"><div class="exp-point-dot"></div>Berkontribusi dalam perencanaan dan pelaksanaan kegiatan kelompok</div>
+          <div class="exp-point"><div class="exp-point-dot"></div>Melaksanakan sosialisasi masyarakat terkait "Isi Piringku" — kampanye gizi seimbang</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-left">
+        <div class="exp-period">2024 — Juli 2025</div>
+        <div><span class="exp-badge badge-event">Kepanitiaan</span></div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Panitia Event Tahunan</div>
+        <div class="exp-org-name">MAS Unggulan Amanatul Ummah</div>
+        <div class="exp-points">
+          <div class="exp-point"><div class="exp-point-dot"></div>Bertanggung jawab pada kegiatan Akhir Pekan Muharram dan Maulid Nabi</div>
+          <div class="exp-point"><div class="exp-point-dot"></div>Mendukung pelaksanaan dan bagian dari tim Olimpiade Kimia</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="section">
+  <div class="section-eyebrow sr">Keahlian</div>
+  <h2 class="section-title sr d1">Skill <em>& Tools.</em></h2>
+  <div class="skills-wrap">
+
+    <div class="skill-group sr d1">
+      <div class="skill-group-title"><span class="skill-group-icon">💻</span>Technical Skills</div>
+      <div class="skill-tags">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">JavaScript</span>
+        <span class="skill-pill">HTML & CSS</span>
+        <span class="skill-pill">SQL</span>
+        <span class="skill-pill">Basis Data</span>
+        <span class="skill-pill">Administrasi Keuangan</span>
+        <span class="skill-pill">Pemecahan Masalah</span>
+      </div>
+    </div>
+
+    <div class="skill-group sr d2">
+      <div class="skill-group-title"><span class="skill-group-icon">🤝</span>Soft Skills</div>
+      <div class="skill-tags">
+        <span class="skill-pill">Komunikasi</span>
+        <span class="skill-pill">Kerja Sama Tim</span>
+        <span class="skill-pill">Manajemen Waktu</span>
+        <span class="skill-pill">Ketelitian</span>
+        <span class="skill-pill">Disiplin</span>
+        <span class="skill-pill">Berorientasi Hasil</span>
+        <span class="skill-pill">Adaptif & Proaktif</span>
+      </div>
+    </div>
+
+    <div class="skill-group sr d3">
+      <div class="skill-group-title"><span class="skill-group-icon">🛠️</span>Software</div>
+      <div class="skill-tags">
+        <span class="skill-pill">Visual Studio Code</span>
+        <span class="skill-pill">Figma</span>
+        <span class="skill-pill">Canva</span>
+        <span class="skill-pill">Microsoft Word</span>
+        <span class="skill-pill">Microsoft Excel</span>
+        <span class="skill-pill">Microsoft PowerPoint</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-eyebrow sr">About</div>
+      <h2 class="about-title sr d1">Tentang<em>Saya.</em></h2>
+      <p class="about-para sr d2">
+        Mahasiswa <strong>D4 Teknologi Rekayasa Perangkat Lunak</strong> di Universitas Gadjah Mada yang berkomitmen tinggi, disiplin, dan memiliki kemampuan adaptasi yang baik.
+      </p>
+      <p class="about-para sr d2">
+        Berpengalaman dalam organisasi kemahasiswaan yang mengasah keterampilan komunikasi, <strong>manajemen keuangan</strong>, dan kerja sama tim. Familiar dengan pemrograman web dan basis data, serta terbiasa bekerja secara mandiri maupun kolaboratif dalam mencapai target.
+      </p>
+      <div class="about-links sr d3">
+        <a href="mailto:ruhanafaiz148@gmail.com" class="about-link link-primary">Email Saya →</a>
+        <a href="tel:+6282228164937" class="about-link link-ghost">+62 822-2816-4937</a>
+        <a href="#" class="about-link link-ghost">LinkedIn</a>
+        <a href="#" class="about-link link-ghost">GitHub</a>
+      </div>
+    </div>
+
+    <div class="profile-card sr d1">
+      <div class="profile-card-top">
+        <div class="profile-avatar">RFR</div>
+        <div class="profile-card-name">Ruhana Faiz Restiyanti</div>
+        <div class="profile-card-role">Mahasiswa D4 TRPL — Universitas Gadjah Mada</div>
+      </div>
+      <div class="profile-card-body">
+        <div class="profile-row"><span class="profile-key">Status</span><span class="profile-val">Aktif, 2025–sekarang</span></div>
+        <div class="profile-row"><span class="profile-key">Program</span><span class="profile-val">D4 Teknologi Rekayasa Perangkat Lunak</span></div>
+        <div class="profile-row"><span class="profile-key">Universitas</span><span class="profile-val">Universitas Gadjah Mada</span></div>
+        <div class="profile-row"><span class="profile-key">Lokasi</span><span class="profile-val">Mlati, Sleman, DIY</span></div>
+        <div class="profile-row"><span class="profile-key">Email</span><span class="profile-val violet">ruhanafaiz148@gmail.com</span></div>
+        <div class="profile-row"><span class="profile-key">Telepon</span><span class="profile-val">+62 822-2816-4937</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="foot-logo">Ruhana<em>.</em></div>
+  <div class="foot-copy">© 2025 Ruhana Faiz Restiyanti — All rights reserved.</div>
+  <div class="foot-links">
+    <a href="mailto:ruhanafaiz148@gmail.com">Email</a>
+    <a href="tel:+6282228164937">WhatsApp</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">GitHub</a>
+  </div>
+</footer>
+
+<script>
+// Mobile nav
+const ham=document.getElementById('ham'),mob=document.getElementById('mob');
+ham.addEventListener('click',()=>mob.classList.toggle('open'));
+mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mob.classList.remove('open')));
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:0.08});
+document.querySelectorAll('.sr').forEach(el=>obs.observe(el));
+
+// Hero instant reveal
+document.querySelectorAll('#hero .sr').forEach((el,i)=>{
+  setTimeout(()=>el.classList.add('in'),60+i*140);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Ruhana</title>
+
+  <!-- Tailwind + DaisyUI -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet"/>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+
+<body class="bg-base-100 text-base-content">
+
+<!-- NAVBAR -->
+<div class="navbar bg-base-100 px-6 shadow-sm fixed top-0 z-50">
+  <div class="flex-1">
+    <a class="text-xl font-bold">Ruhana<span class="text-primary">.</span></a>
+  </div>
+
+  <div class="hidden md:flex gap-6">
+    <a href="#hero">Home</a>
+    <a href="#projects">Proyek</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <div class="md:hidden">
+    <div class="dropdown dropdown-end">
+      <label tabindex="0" class="btn btn-ghost">☰</label>
+      <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box w-52 mt-3 p-2 shadow">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#projects">Proyek</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero" class="min-h-screen flex items-center px-6 pt-24">
+  <div class="grid md:grid-cols-2 gap-10 items-center w-full max-w-6xl mx-auto">
+
+    <!-- TEXT -->
+    <div>
+      <h1 class="text-5xl md:text-6xl font-bold leading-tight">
+        Ruhana Faiz <br>
+        <span class="text-primary">Restiyanti.</span>
+      </h1>
+
+      <p class="mt-4 text-gray-500">
+        Mahasiswa TRPL UGM yang fokus pada pengembangan web, database, dan desain UI modern.
+      </p>
+
+      <div class="mt-6 flex gap-3">
+        <a href="#projects" class="btn btn-primary">Lihat Proyek</a>
+        <a href="#contact" class="btn btn-outline">Hubungi Saya</a>
+      </div>
+    </div>
+
+    <!-- FOTO -->
+    <div class="flex justify-center">
+      <div class="avatar">
+        <div class="w-64 rounded-full ring ring-primary ring-offset-base-100 ring-offset-4">
+          <img src="https://i.pravatar.cc/300" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="px-6 py-20 bg-base-200">
+  <div class="max-w-6xl mx-auto">
+
+    <h2 class="text-3xl font-bold mb-10">Proyek Saya</h2>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- CARD 1 -->
+      <div class="card bg-base-100 shadow">
+        <div class="card-body">
+          <h3 class="card-title">Portfolio Website</h3>
+          <p>Website portofolio pribadi responsif menggunakan HTML & CSS.</p>
+          <div class="flex gap-2 mt-2">
+            <div class="badge badge-outline">HTML</div>
+            <div class="badge badge-outline">CSS</div>
+          </div>
+          <div class="card-actions mt-4">
+            <button class="btn btn-sm btn-primary">Detail</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="card bg-base-100 shadow">
+        <div class="card-body">
+          <h3 class="card-title">Sistem Database</h3>
+          <p>CRUD database menggunakan SQL untuk manajemen data.</p>
+          <div class="flex gap-2 mt-2">
+            <div class="badge badge-outline">SQL</div>
+            <div class="badge badge-outline">Database</div>
+          </div>
+          <div class="card-actions mt-4">
+            <button class="btn btn-sm btn-primary">Detail</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="card bg-base-100 shadow">
+        <div class="card-body">
+          <h3 class="card-title">UI Design App</h3>
+          <p>Desain aplikasi mobile menggunakan Figma dengan UX modern.</p>
+          <div class="flex gap-2 mt-2">
+            <div class="badge badge-outline">Figma</div>
+            <div class="badge badge-outline">UI/UX</div>
+          </div>
+          <div class="card-actions mt-4">
+            <button class="btn btn-sm btn-primary">Detail</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="px-6 py-20">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+
+    <!-- FOTO -->
+    <div class="flex justify-center">
+      <img src="https://i.pravatar.cc/400" class="rounded-2xl shadow-lg w-80">
+    </div>
+
+    <!-- TEXT -->
+    <div>
+      <h2 class="text-3xl font-bold mb-4">Tentang Saya</h2>
+      <p class="text-gray-500 mb-4">
+        Mahasiswa TRPL UGM yang aktif dalam organisasi dan memiliki minat di bidang web development serta database.
+      </p>
+
+      <div class="flex flex-wrap gap-2">
+        <span class="badge badge-primary">HTML</span>
+        <span class="badge badge-primary">CSS</span>
+        <span class="badge badge-primary">SQL</span>
+        <span class="badge badge-primary">Figma</span>
+        <span class="badge badge-primary">Teamwork</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact" class="footer footer-center p-10 bg-neutral text-neutral-content">
+  <div>
+    <p class="font-bold text-lg">Ruhana Faiz Restiyanti</p>
+    <p>© 2025 — All rights reserved</p>
+  </div>
+
+  <div class="flex gap-4">
+    <a class="link">Email</a>
+    <a class="link">WhatsApp</a>
+    <a class="link">LinkedIn</a>
+    <a class="link">GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>
