@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tugas 1 — Grid System</title>
+
+  <!-- DaisyUI + Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Style -->
+  <style>
+    :root {
+      --primary: #7c3aed; /* ungu */
+      --secondary: #f43f5e; /* pink */
+    }
+
+    .btn-custom {
+      background: var(--primary);
+      color: white;
+      transition: 0.3s;
+    }
+
+    .btn-custom:hover {
+      background: var(--secondary);
+      transform: scale(1.05);
+    }
+
+    .card-hover {
+      transition: 0.3s;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .img-hover {
+      transition: 0.4s;
+    }
+
+    .img-hover:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body class="flex flex-col min-h-screen bg-base-100">
+
+  <!-- NAVBAR -->
+  <div class="navbar bg-base-200 shadow-md">
+    <div class="flex-1">
+      <a class="btn btn-ghost text-xl font-bold text-purple-600">MyBrand</a>
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal px-1 font-medium">
+        <li><a class="hover:text-purple-500">Home</a></li>
+        <li><a class="hover:text-purple-500">About</a></li>
+        <li><a class="hover:text-purple-500">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <main class="flex-grow p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- CARD 1 -->
+      <div class="card bg-base-100 shadow-lg card-hover">
+        <figure class="overflow-hidden">
+          <img src="https://picsum.photos/400/200?1" class="img-hover" />
+        </figure>
+        <div class="card-body">
+          <h2 class="card-title">Judul 1</h2>
+          <p>Deskripsi singkat.</p>
+          <div class="card-actions justify-end">
+            <button class="btn btn-custom">Detail</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="card bg-base-100 shadow-lg card-hover">
+        <figure class="overflow-hidden">
+          <img src="https://picsum.photos/400/200?2" class="img-hover" />
+        </figure>
+        <div class="card-body">
+          <h2 class="card-title">Judul 2</h2>
+          <p>Deskripsi singkat.</p>
+          <div class="card-actions justify-end">
+            <button class="btn btn-custom">Detail</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="card bg-base-100 shadow-lg card-hover">
+        <figure class="overflow-hidden">
+          <img src="https://picsum.photos/400/200?3" class="img-hover" />
+        </figure>
+        <div class="card-body">
+          <h2 class="card-title">Judul 3</h2>
+          <p>Deskripsi singkat.</p>
+          <div class="card-actions justify-end">
+            <button class="btn btn-custom">Detail</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-base-200 text-center p-4 mt-6">
+    <p class="text-sm text-gray-600">
+      &copy; 2026 MyBrand. All rights reserved.
+    </p>
+  </footer>
+
+</body>
+</html>

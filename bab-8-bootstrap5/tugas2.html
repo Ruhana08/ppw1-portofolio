@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tugas 2 — Formulir Pendaftaran</title>
+
+  <!-- DaisyUI + Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-base-200 flex items-center justify-center min-h-screen">
+
+  <div class="card w-full max-w-2xl bg-base-100 shadow-xl">
+    <div class="card-body">
+
+      <h2 class="text-2xl font-bold text-center mb-4">Formulir Pendaftaran</h2>
+
+      <!-- ALERT (hidden default) -->
+      <div id="alertSuccess" class="alert alert-success hidden">
+        <span>Data berhasil disimpan!</span>
+      </div>
+
+      <form id="formPendaftaran" class="space-y-4">
+
+        <!-- NAMA + NIM (2 KOLOM) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="label">Nama Lengkap</label>
+            <input type="text" class="input input-bordered w-full border-green-500" placeholder="Nama lengkap">
+          </div>
+
+          <div>
+            <label class="label">NIM</label>
+            <input type="text" class="input input-bordered w-full border-red-500" placeholder="NIM">
+          </div>
+        </div>
+
+        <!-- EMAIL -->
+        <div>
+          <label class="label">Email</label>
+          <input type="email" class="input input-bordered w-full" placeholder="Email">
+        </div>
+
+        <!-- PRODI -->
+        <div>
+          <label class="label">Program Studi</label>
+          <select class="select select-bordered w-full">
+            <option disabled selected>Pilih Prodi</option>
+            <option>Informatika</option>
+            <option>Sistem Informasi</option>
+            <option>Teknik Komputer</option>
+          </select>
+        </div>
+
+        <!-- SEMESTER -->
+        <div>
+          <label class="label">Semester</label>
+          <select class="select select-bordered w-full">
+            <option disabled selected>Pilih Semester</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+          </select>
+        </div>
+
+        <!-- ALAMAT -->
+        <div>
+          <label class="label">Alamat</label>
+          <textarea class="textarea textarea-bordered w-full" rows="3"></textarea>
+        </div>
+
+        <!-- FOTO -->
+        <div>
+          <label class="label">Foto Profil</label>
+          <input type="file" class="file-input file-input-bordered w-full">
+        </div>
+
+        <!-- BUTTON -->
+        <div class="flex gap-2">
+          <button type="submit" class="btn btn-primary">Simpan</button>
+          <button type="reset" class="btn btn-outline">Reset</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- SCRIPT ALERT -->
+  <script>
+    const form = document.getElementById("formPendaftaran");
+    const alertBox = document.getElementById("alertSuccess");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      alertBox.classList.remove("hidden");
+    });
+  </script>
+
+</body>
+</html>
