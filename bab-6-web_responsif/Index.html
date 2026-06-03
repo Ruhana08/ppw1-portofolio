@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soundwave</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    
+    /* ============================================================
+       VARIABLES & RESET
+    ============================================================ */
+
+    :root {
+      --gold:        #F5C842;
+      --gold-hover:  #f0d050;
+      --bg:          #080808;
+      --surface:     #111111;
+      --surface2:    #1a1a1a;
+      --border:      #222222;
+      --text:        #e8e8e8;
+      --muted:       #666666;
+
+      --navbar-h:    61px;
+      --search-h:    88px;
+      --player-h:    80px;
+
+      --font-display: 'Playfair Display', serif;
+      --font-body:    'DM Sans', sans-serif;
+
+      --radius-sm:   8px;
+      --radius-md:   14px;
+      --radius-lg:   18px;
+      --radius-full: 100px;
+
+      --ease: 0.2s ease;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       ANIMATION
+    ============================================================ */
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* ============================================================
+       NAVBAR  — fixed
+    ============================================================ */
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 600;
+
+      height: var(--navbar-h);
+
+      display: flex;
+      justify-content: space-between; /* biar kiri & kanan */
+      align-items: center;            /* biar sejajar 1 baris */
+
+      padding: 0 52px;
+      background: rgba(8,8,8,0.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    .logo-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s infinite;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+
+    .btn-outline, .btn-fill {
+      padding: 9px 20px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-family: var(--font-body);
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: all var(--ease);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #333;
+      color: #ccc;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .btn-fill {
+      background: var(--gold);
+      border: none;
+      color: #000;
+      font-weight: 600;
+    }
+    .btn-fill:hover { background: var(--gold-hover); transform: translateY(-1px); }
+
+    /* ============================================================
+       SEARCH BAR  — fixed below navbar
+    ============================================================ */
+
+    .search-fixed {
+      position: fixed;
+      top: var(--navbar-h); /* penting: biar di bawah navbar */
+      left: 0;
+      right: 0;
+
+      z-index: 500;
+
+      height: var(--search-h);
+      padding: 10px 20px 8px;
+
+      background: rgba(8,8,8,0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .search-inner {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .search-inner input {
+      width: 100%;
+      padding: 15px 120px 15px 52px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid #2a2a2a;
+      background: #161616;
+      color: #fff;
+      font-size: 15px;
+      font-family: var(--font-body);
+      letter-spacing: 0.2px;
+      transition: all 0.25s;
+    }
+    .search-inner input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: #1a1a1a;
+      box-shadow: 0 0 0 4px rgba(245,200,66,0.08), 0 8px 32px rgba(0,0,0,0.6);
+    }
+    .search-inner input::placeholder { color: #444; }
+
+    .search-icon {
+      position: absolute;
+      left: 20px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 17px; color: #555;
+      pointer-events: none;
+    }
+
+    .search-btn {
+      position: absolute;
+      right: 8px; top: 50%;
+      transform: translateY(-50%);
+      padding: 9px 22px;
+      border-radius: var(--radius-full);
+      border: none;
+      background: var(--gold);
+      color: #000;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: background var(--ease);
+    }
+    .search-btn:hover { background: var(--gold-hover); }
+
+    .categories {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .categories span {
+      padding: 5px 16px;
+      border-radius: var(--radius-full);
+      border: 1px solid #2a2a2a;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 500;
+      color: #888;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: all var(--ease);
+    }
+    .categories span:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #000;
+      transform: translateY(-1px);
+    }
+
+    /* ============================================================
+       PAGE BODY  — offset below both fixed bars, above player
+    ============================================================ */
+
+    .page-body {
+    margin-top: calc(var(--navbar-h) + var(--search-h));
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      padding: 60px 20px 44px;
+      background: linear-gradient(180deg, #0c0c0c 0%, var(--bg) 100%);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(245,200,66,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .tagline {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.75;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: 68px;
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+    }
+    .hero h1 span { color: var(--gold); font-style: italic; }
+
+    /* ============================================================
+       BANNER
+    ============================================================ */
+
+    .banner {
+      padding: 28px 48px 36px;
+      background: var(--bg);
+    }
+
+    .banner-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .slider {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .slide-item {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s;
+    }
+    .slide-item:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,200,66,0.2);
+    }
+
+    .slide-item img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.9);
+      transition: transform 0.4s ease, filter 0.3s;
+    }
+    .slide-item:hover img { transform: scale(1.04); filter: brightness(0.7); }
+
+    .slide-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 40px 16px 14px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .slide-item:hover .slide-info { opacity: 1; transform: translateY(0); }
+
+    .slide-title  { font-size: 13px; font-weight: 600; color: #fff; }
+    .slide-artist { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+    .play-btn {
+      position: absolute;
+      bottom: 14px; right: 14px;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #000;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(10px) scale(0.85);
+      transition: opacity 0.25s, transform 0.25s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .slide-item:hover .play-btn { opacity: 1; transform: translateY(0) scale(1); }
+
+    /* ============================================================
+       LAYOUT  (sidebar + main)
+       Desktop: flex, sidebar sticky, main scrolls with page
+       Mobile:  block, sidebar off-canvas
+    ============================================================ */
+
+    .layout { display: flex; }
+
+    /* ============================================================
+       SIDEBAR
+    ============================================================ */
+
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      padding: 32px 20px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      /* sticky so it stays visible while main content scrolls */
+      position: sticky;
+      top: calc(var(--navbar-h) + var(--search-h));
+      height: calc(100vh - var(--navbar-h) - var(--search-h) - var(--player-h));
+      overflow-y: auto;
+      align-self: flex-start;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 3px; }
+    .sidebar::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+
+    .sidebar-heading {
+      padding: 0 10px;
+      margin-bottom: 10px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .sidebar ul { list-style: none; margin-bottom: 28px; }
+
+    .sidebar li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      margin: 2px 0;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      color: #888;
+      cursor: pointer;
+      transition: all var(--ease);
+    }
+    .sidebar li:hover { background: #1e1e1e; color: var(--gold); padding-left: 18px; }
+    .sidebar li.active {
+      background: rgba(245,200,66,0.08);
+      color: var(--gold);
+      border-left: 2px solid var(--gold);
+    }
+
+    .sidebar-icon { font-size: 15px; opacity: 0.75; }
+
+    /* ============================================================
+       MAIN CONTENT
+    ============================================================ */
+
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      padding: 36px 44px 60px;
+      background: var(--bg);
+    }
+
+    /* ============================================================
+       SECTION TITLE
+    ============================================================ */
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 20px;
+    }
+
+    .cards + .section-title,
+    .list  + .section-title { margin-top: 48px; }
+
+    .section-title h2 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .see-all {
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color var(--ease);
+    }
+    .see-all:hover { color: var(--gold); }
+
+    /* ============================================================
+       CARDS
+    ============================================================ */
+
+    .cards { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      width: 155px;
+      flex-shrink: 0;
+      padding: 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      transition: transform 0.25s, background 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(245,200,66,0.04), transparent);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .card:hover::after { opacity: 1; }
+    .card:hover {
+      transform: translateY(-4px);
+      background: var(--surface2);
+      border-color: #2c2c2c;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.5);
+    }
+
+    .card img {
+      width: 100%;
+      height: 135px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      display: block;
+      transition: transform 0.3s;
+    }
+    .card:hover img { transform: scale(1.03); }
+
+    .card h4 {
+      margin-top: 9px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #ddd;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card p { margin-top: 3px; font-size: 11px; color: var(--muted); }
+
+    /* ============================================================
+       MUSIC LIST
+    ============================================================ */
+
+    .list { margin-top: 6px; }
+
+    .music {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 11px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background var(--ease);
+    }
+    .music::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 12px; right: 12px;
+      height: 1px;
+      background: var(--border);
+    }
+    .music:last-child::after { display: none; }
+    .music:hover { background: #141414; }
+    .music:hover .title { color: var(--gold); }
+
+    .track-num {
+      width: 20px;
+      flex-shrink: 0;
+      font-size: 13px;
+      color: #444;
+      text-align: center;
+    }
+    .music:hover .track-num { display: none; }
+
+    .play-inline {
+      display: none;
+      width: 32px; height: 32px;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #000;
+      font-size: 12px;
+    }
+    .music:hover .play-inline { display: flex; }
+
+    .song-thumb {
+      width: 42px; height: 42px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #222;
+    }
+
+    .song-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+    .title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #d0d0d0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color var(--ease);
+    }
+
+    .artist-name { font-size: 12px; color: #555; }
+
+    .song-duration { flex-shrink: 0; font-size: 12px; color: #444; }
+
+    /* ============================================================
+       PLAYER BAR  — fixed at bottom
+    ============================================================ */
+
+    .player-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 999;
+      height: var(--player-h);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0 28px;
+      background: rgba(12,12,12,0.97);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+    }
+
+    .player-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 240px;
+      flex-shrink: 0;
+    }
+
+    .player-thumb {
+      width: 48px; height: 48px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      background: #222;
+    }
+
+    .player-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      max-width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .player-artist { margin-top: 2px; font-size: 11px; color: #555; }
+
+    .player-controls {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .player-buttons { display: flex; align-items: center; gap: 18px; }
+
+    .ctrl-btn {
+      background: none; border: none;
+      color: #555; font-size: 17px;
+      cursor: pointer; line-height: 1;
+      transition: color var(--ease);
+    }
+    .ctrl-btn:hover { color: #fff; }
+
+    .ctrl-btn.play-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #000; font-size: 14px;
+      transition: background var(--ease), transform var(--ease);
+    }
+    .ctrl-btn.play-main:hover { background: var(--gold-hover); transform: scale(1.06); }
+
+    .player-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .progress-time {
+      flex-shrink: 0; min-width: 30px;
+      font-size: 10px; color: #444;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-bar {
+      flex: 1; height: 3px;
+      background: #2a2a2a; border-radius: 2px;
+      cursor: pointer; transition: height 0.15s;
+    }
+    .progress-bar:hover { height: 5px; }
+
+    .progress-fill {
+      width: 32%; height: 100%;
+      background: var(--gold); border-radius: 2px;
+      pointer-events: none;
+    }
+
+    .player-volume {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 150px; flex-shrink: 0;
+      justify-content: flex-end;
+    }
+
+    .vol-icon { font-size: 15px; color: #555; cursor: pointer; transition: color var(--ease); }
+    .vol-icon:hover { color: #fff; }
+
+    .vol-bar { width: 80px; height: 3px; background: #2a2a2a; border-radius: 2px; cursor: pointer; }
+    .vol-fill { width: 70%; height: 100%; background: #555; border-radius: 2px; transition: background var(--ease); }
+    .vol-bar:hover .vol-fill { background: var(--gold); }
+
+    /* ============================================================
+       MOBILE SIDEBAR TOGGLE
+    ============================================================ */
+
+    #menu-toggle { display: none; }
+
+    .floating-btn {
+      position: fixed;
+      top: calc(var(--navbar-h) + 10px);
+      left: 14px;
+      z-index: 1100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #000;
+      font-size: 20px; font-weight: bold;
+      cursor: pointer;
+    }
+
+    .overlay-bg {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s; z-index: 900;
+    }
+
+    /* ============================================================
+       RESPONSIVE — tablet
+    ============================================================ */
+
+    @media (max-width: 1024px) {
+      .navbar  { padding: 0 28px; }
+      .hero h1 { font-size: 48px; }
+      .banner  { padding: 22px 28px; }
+      .sidebar { width: 200px; }
+    }
+
+    /* ============================================================
+       RESPONSIVE — mobile
+       Root fix: layout becomes block so content is NEVER clipped.
+       The page itself scrolls; sidebar goes off-canvas.
+    ============================================================ */
+
+    @media (max-width: 768px) {
+      .navbar  { padding: 0 18px; }
+      .hero    { padding: 36px 20px 28px; }
+      .hero h1 { font-size: 34px; letter-spacing: -1px; }
+      .banner  { padding: 16px 14px 24px; }
+
+      /* banner horizontal scroll */
+      .slider { overflow-x: auto; justify-content: flex-start; }
+      .slide-item { min-width: 200px; }
+      .slide-item img { height: 190px; }
+
+      /* sidebar: off-canvas */
+      .sidebar {
+        position: fixed;
+        top: 0; left: -270px;
+        width: 260px; height: 100vh;
+        z-index: 1000;
+        padding: 28px 18px;
+        /* reset desktop sticky values */
+        align-self: auto;
+        transition: left 0.3s ease;
+      }
+
+      /* sidebar open state */
+      #menu-toggle:checked ~ .page-body .layout .sidebar { left: 0; }
+      #menu-toggle:checked ~ .overlay-bg { opacity: 1; pointer-events: auto; }
+
+      .floating-btn { display: flex; }
+
+      /* KEY FIX: block layout so main-content is full-width
+         and page scrolls naturally — no height clipping */
+      .layout { display: block; }
+
+      .main-content { padding: 20px 16px 60px; }
+
+      /* cards: horizontal scroll row */
+      .cards {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .cards::-webkit-scrollbar { height: 3px; }
+      .cards::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+      .card { min-width: 138px; }
+
+      /* player */
+      .player-bar {
+        flex-direction: column;
+        height: auto;
+        padding: 12px 16px;
+        gap: 8px;
+      }
+      .player-info    { width: 100%; }
+      .player-controls { width: 100%; }
+      .player-volume  { display: none; }
+    }
+  </style>
+</head>
+<body>
+<input type="checkbox" id="menu-toggle">
+<label for="menu-toggle" class="floating-btn">☰</label>
+<label for="menu-toggle" class="overlay-bg"></label>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    Soundwave
+  </div>
+
+  <div class="nav-right">
+    <button class="btn-outline">Sign in</button>
+    <button class="btn-fill">Create account</button>
+  </div>
+</header>
+
+<!-- SEARCH BAR (WAJIB DI LUAR NAVBAR) -->
+<div class="search-fixed">
+  <div class="search-inner">
+    <span class="search-icon">🔍</span>
+    <input type="text" placeholder="Search for artists, songs, albums, podcasts…">
+    <button class="search-btn">Search</button>
+  </div>
+
+</div>
+
+  <!-- SEARCH (FIXED) -->
+  
+    <div class="categories">
+      <span>🔥 Trending</span>
+      <span>🎸 Rock</span>
+      <span>🎹 Pop</span>
+      <span>🌊 Indie</span>
+      <span>🌙 Lo-fi</span>
+      <span>🎤 Hip-hop</span>
+      <span>🎻 Jazz</span>
+    </div>
+  </div>
+
+  <!-- PAGE BODY -->
+  <div class="page-body">
+
+    <!-- HERO -->
+    <section class="hero">
+      <p class="tagline">— Your personal music universe —</p>
+      <h1>Discover <span>Sounds</span><br>You Love</h1>
+    </section>
+
+    <!-- BANNER -->
+    <section class="banner">
+      <p class="banner-label">Now trending</p>
+      <div class="slider">
+        <div class="slide-item">
+          <img src="Penyangkalan.jpg" onerror="this.style.background='linear-gradient(135deg,#1a1a2e,#16213e)';this.removeAttribute('src')">
+          <div class="slide-info"><div class="slide-title">Penyangkalan</div><div class="slide-artist">For Revenge</div></div>
+          <div class="play-btn">▶</div>
+        </div>
+        <div class="slide-item">
+          <img src="lesung pipi.png" onerror="this.style.background='linear-gradient(135deg,#1a2a1a,#2d4a2d)';this.removeAttribute('src')">
+          <div class="slide-info"><div class="slide-title">Lesung Pipi</div><div class="slide-artist">Raim Laode</div></div>
+          <div class="play-btn">▶</div>
+        </div>
+        <div class="slide-item">
+          <img src="garam dan madu.jpg" onerror="this.style.background='linear-gradient(135deg,#2a1a2a,#4a2d4a)';this.removeAttribute('src')">
+          <div class="slide-info"><div class="slide-title">Garam dan Madu</div><div class="slide-artist">Tenxi</div></div>
+          <div class="play-btn">▶</div>
+        </div>
+        <div class="slide-item">
+          <img src="penjaga hati.jpg" onerror="this.style.background='linear-gradient(135deg,#2a1a1a,#4a2d2d)';this.removeAttribute('src')">
+          <div class="slide-info"><div class="slide-title">Penjaga Hati</div><div class="slide-artist">Raisa</div></div>
+          <div class="play-btn">▶</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIDEBAR + MAIN -->
+    <div class="layout">
+
+      <aside class="sidebar">
+        <p class="sidebar-heading">Menu</p>
+        <ul>
+          <li class="active"><span class="sidebar-icon">🏠</span> Beranda</li>
+          <li><span class="sidebar-icon">🔥</span> Trending</li>
+          <li><span class="sidebar-icon">🔭</span> Discover</li>
+          <li><span class="sidebar-icon">📻</span> Radio</li>
+          <li><span class="sidebar-icon">❤️</span> Favorite</li>
+        </ul>
+        <p class="sidebar-heading">Playlist</p>
+        <ul>
+          <li><span class="sidebar-icon">☀️</span> Pagi udah nyampe</li>
+          <li><span class="sidebar-icon">🌙</span> Late night</li>
+          <li><span class="sidebar-icon">🌧️</span> Melankolis</li>
+          <li><span class="sidebar-icon">⚡</span> Semangat bro</li>
+        </ul>
+      </aside>
+
+      <main class="main-content">
+
+        <div class="section-title">
+          <h2>Popular Songs</h2>
+          <span class="see-all">Lihat semua →</span>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <img src="sedia.png" onerror="this.style.background='linear-gradient(135deg,#1e1e3a,#2a2a5a)';this.style.height='135px';this.removeAttribute('src')">
+            <h4>Sedia Aku Sebelum Hujan</h4><p>Idgitaf</p>
+          </div>
+          <div class="card">
+            <img src="bahagia lagi.png" onerror="this.style.background='linear-gradient(135deg,#1e3a1e,#2a5a2a)';this.style.height='135px';this.removeAttribute('src')">
+            <h4>Bahagia Lagi</h4><p>Piche Kota</p>
+          </div>
+          <div class="card">
+            <img src="Penyangkalan.jpg" onerror="this.style.background='linear-gradient(135deg,#3a1e1e,#5a2a2a)';this.style.height='135px';this.removeAttribute('src')">
+            <h4>Penyangkalan</h4><p>For Revenge</p>
+          </div>
+          <div class="card">
+            <img src="Kita usahakan rumah itu.jpg" onerror="this.style.background='linear-gradient(135deg,#3a1e3a,#5a2a5a)';this.style.height='135px';this.removeAttribute('src')">
+            <h4>Kita usahakan rumah itu</h4><p>Sal Priadi</p>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <h2>Recently Played</h2>
+          <span class="see-all">Lihat semua →</span>
+        </div>
+
+        <div class="list">
+          <div class="music">
+            <span class="track-num">1</span><div class="play-inline">▶</div>
+            <img class="song-thumb" src="bersanja.png" onerror="this.style.background='#222';this.removeAttribute('src')">
+            <div class="song-info"><div class="title">Bersenja gurau</div><div class="artist-name">Raim Laode</div></div>
+            <span class="song-duration">3:47</span>
+          </div>
+          <div class="music">
+            <span class="track-num">2</span><div class="play-inline">▶</div>
+            <img class="song-thumb" src="take me home.png" onerror="this.style.background='#1e2a1e';this.removeAttribute('src')">
+            <div class="song-info"><div class="title">Take me home</div><div class="artist-name">One Direction</div></div>
+            <span class="song-duration">4:12</span>
+          </div>
+          <div class="music">
+            <span class="track-num">3</span><div class="play-inline">▶</div>
+            <img class="song-thumb" src="traot.png" onerror="this.style.background='#2a1e2a';this.removeAttribute('src')">
+            <div class="song-info"><div class="title">Tarot</div><div class="artist-name">Feast.</div></div>
+            <span class="song-duration">3:58</span>
+          </div>
+          <div class="music">
+            <span class="track-num">4</span><div class="play-inline">▶</div>
+            <img class="song-thumb" src="ophelia.jpg" onerror="this.style.background='#2a1e1e';this.removeAttribute('src')">
+            <div class="song-info"><div class="title">The fate of ophelia</div><div class="artist-name">Taylor Swift</div></div>
+            <span class="song-duration">5:01</span>
+          </div>
+          <div class="music">
+            <span class="track-num">5</span><div class="play-inline">▶</div>
+            <img class="song-thumb" src="mangu.png" onerror="this.style.background='#1e2a1e';this.removeAttribute('src')">
+            <div class="song-info"><div class="title">Mangu</div><div class="artist-name">Fourtwnty ft. Charita Utami</div></div>
+            <span class="song-duration">3:29</span>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+  </div><!-- end .page-body -->
+
+  <!-- PLAYER BAR -->
+  <div class="player-bar">
+    <div class="player-info">
+      <img class="player-thumb" src="sedia.png" onerror="this.style.background='#1e1e3a';this.removeAttribute('src')">
+      <div>
+        <div class="player-title">Sedia Aku Sebelum Hujan</div>
+        <div class="player-artist">Idgitaf</div>
+      </div>
+    </div>
+    <div class="player-controls">
+      <div class="player-buttons">
+        <button class="ctrl-btn">⇄</button>
+        <button class="ctrl-btn">⏮</button>
+        <button class="ctrl-btn play-main">▶</button>
+        <button class="ctrl-btn">⏭</button>
+        <button class="ctrl-btn">↻</button>
+      </div>
+      <div class="player-progress">
+        <span class="progress-time">1:14</span>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <span class="progress-time">3:47</span>
+      </div>
+    </div>
+    <div class="player-volume">
+      <span class="vol-icon">🔊</span>
+      <div class="vol-bar"><div class="vol-fill"></div></div>
+    </div>
+  </div>
+
+</body>
+</html>
